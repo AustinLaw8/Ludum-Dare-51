@@ -48,10 +48,17 @@ public class LevelControllerBehavior : MonoBehaviour
         // Input
 
         //  Pause
-        if(Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P))
         {
             // cue pause menu
-            UiCanvasBehavior.uiCanvasBehavior.pause();
+            if (_levelActive)
+            {
+                UiCanvasBehavior.uiCanvasBehavior.pause();
+            }
+            else if (UiCanvasBehavior.uiCanvasBehavior.paused)
+            {
+                UiCanvasBehavior.uiCanvasBehavior.ButtonSettingsBack();
+            }
         }
 
         //  Movement
@@ -74,7 +81,6 @@ public class LevelControllerBehavior : MonoBehaviour
         {
             Weapon.Fire(Camera.main.ScreenToWorldPoint(Input.mousePosition)); // check doc
         }
-
     }
 
     // called when game starts. Does setup/refresh

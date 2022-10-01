@@ -5,25 +5,36 @@ using UnityEngine;
 public class PlayerBehavior : MonoBehaviour
 {
     public float maxHp, speed;
-    [SerializeField] private Camera mainCamera;
+    [SerializeField] private Camera _mainCamera;
+    [SerializeField] private UnityEngine.UI.Image _healthBar;
+    private HealthBarBehavior _healthBarBehavior;
     private float _hp; public float hp {get {return _hp;}}
     private float _attack; public float attack {get {return _attack;}}
     
     // Start is called before the first frame update
     void Start()
     {
-        if (mainCamera == null) mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
+        if (_mainCamera == null) _mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
+        _healthBarBehavior = _healthBar.GetComponent<HealthBarBehavior>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        mainCamera.transform.position = new Vector3(transform.position.x, transform.position.y, mainCamera.transform.position.z);
+        // if the player sprite isn't looking towards the mouse,
+        if (Mathf.Sign(Camera.main.ScreenToWorldPoint(Input.mousePosition).x - transform.position.x) != Mathf.Sign(transform.localScale.x))
+        {
+            transform.localScale = new Vector3(transform.localScale.x * -1f, transform.localScale.y, transform.localScale.z);
+            _healthBarBehavior.FlipToMaintainBillboard();
+        }
+        
+
+        _mainCamera.transform.position = new Vector3(transform.position.x, transform.position.y, _mainCamera.transform.position.z);
     }
 
     public void RefreshHealth()
     {
-        maxHp = _hp;
+        _hp = maxHp;
     }
 
     public void DamagePlayer(float hpDamaged)
@@ -46,4 +57,6 @@ public class PlayerBehavior : MonoBehaviour
                                          transform.position.y + diagMultiplier * movementMultiplierY * speed * Time.deltaTime,
                                          transform.position.z);
     }
+
+    
 }

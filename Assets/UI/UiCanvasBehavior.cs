@@ -10,17 +10,20 @@ public class UiCanvasBehavior : MonoBehaviour
     // Boxes are "empty" GameObjects that are parents for a set of UI/Menu elements
     protected GameObject[] _exclusiveBoxes; // for setExclusiveBoxActive()
 
-    public GameObject boxMainMenu, boxSettings, boxCredits, boxGameUI, boxPause;
+    public GameObject boxMainMenu, boxSettings, boxCredits, boxGameUI;
+    public GameObject buttonPauseQuit;
     public Slider sliderSFXvolume;
     public float SFXvolumeValue;
     public Slider sliderMusicVolume;
     public float musicVolumeValue;
     public Slider sliderMasterVolume;
     public float masterVolumeValue;
+    private bool _settingsNotPause = false; // denotes whether boxSettings was set active as settings menu or as pause menu
+    public bool paused {get {return boxSettings.activeInHierarchy && !_settingsNotPause;}}
     public void Start()
     {
         uiCanvasBehavior = this;
-        _exclusiveBoxes = new GameObject[] {boxMainMenu, boxSettings, boxCredits, boxGameUI, boxPause};
+        _exclusiveBoxes = new GameObject[] {boxMainMenu, boxSettings, boxCredits, boxGameUI};
         SetExclusiveBoxActive(boxMainMenu);
         SFXvolumeValue = 0.5f;
         musicVolumeValue = 0.5f;
@@ -29,7 +32,7 @@ public class UiCanvasBehavior : MonoBehaviour
 
     public void Update()
     {
-        if (boxSettings.activeSelf || boxPause.activeSelf)
+        if (boxSettings.activeSelf)
         {
             SFXvolumeValue = sliderSFXvolume.value;
             musicVolumeValue = sliderMusicVolume.value;
@@ -52,7 +55,9 @@ public class UiCanvasBehavior : MonoBehaviour
     }
     public void ButtonSettings()
     {
+        _settingsNotPause = true;
         SetExclusiveBoxActive(boxSettings);
+        buttonPauseQuit.SetActive(false);
     }
     public void ButtonCredits()
     {
@@ -70,10 +75,17 @@ public class UiCanvasBehavior : MonoBehaviour
     {
         pause();
     }
-    public void ButtonPauseBack()
+    public void ButtonSettingsBack() // handles both settings menu and pause menu as they are the same box
     {
-        SetExclusiveBoxActive(boxGameUI);
-        LevelControllerBehavior.levelController._levelActive = true;
+        if (_settingsNotPause)
+        {
+            SetExclusiveBoxActive(boxMainMenu);
+        }
+        else
+        {
+            SetExclusiveBoxActive(boxGameUI);
+            LevelControllerBehavior.levelController._levelActive = true;
+        }
     }
     public void ButtonPauseQuit()
     {
@@ -83,7 +95,9 @@ public class UiCanvasBehavior : MonoBehaviour
     public void pause()
     {
         LevelControllerBehavior.levelController._levelActive = false;
-        SetExclusiveBoxActive(boxPause);
+        _settingsNotPause = false;
+        SetExclusiveBoxActive(boxSettings);
+        buttonPauseQuit.SetActive(true);
     }
 
 }
