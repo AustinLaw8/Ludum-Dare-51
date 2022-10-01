@@ -8,16 +8,17 @@ public abstract class EnemyBehavior : MonoBehaviour
     protected static PlayerBehavior _playerBehavior; 
 
     // Enemy fields
-    public float attack, range, speed, hp, maxHp, cooldown; // cd for attacking
+    public float attack, range, speed, hp, maxHp, cooldown, maxCD; // cd for attacking
 
     // get dist from this enemy to player object
     public float dist2Player()
     {
-        float px = _playerBehavior.transform.position.x;
-        float py = _playerBehavior.transform.position.y;
-        float x = transform.position.x;
-        float y = transform.position.y;
-        return Mathf.Sqrt(Mathf.Pow((px - x), 2) + Mathf.Pow((py - y), 2));
+        return Vector3.Distance(_playerBehavior.transform.position, this.transform.position);
+    }
+
+    public float dist2Mouse()
+    {
+        return Vector3.Distance(Camera.main.ScreenToWorldPoint(Input.mousePosition), this.transform.position);
     }
 
     public void move(float x, float y)
@@ -56,16 +57,18 @@ public abstract class EnemyBehavior : MonoBehaviour
     public void DamageEnemy(float amt)
     {
         hp = Mathf.Min(maxHp, hp - amt); // overheal boundary case
+        if (hp <= 0) {
+            Destroy(this.gameObject);
+        }
     }
 
     public abstract void Attack();
-
     
     void Start()
     {
         Setup(maxHp, speed, attack, range, cooldown);
     }
-    
+
     void Update()
     {
         if (range < dist2Player())
@@ -74,7 +77,9 @@ public abstract class EnemyBehavior : MonoBehaviour
             Attack();
 
         // update cooldown if necessary
-        // cooldown 
+
+        if (cooldown > 0)
+            cooldown -= Time.deltaTime;
     }
 
     protected void Setup(float health, float sp, float atk, float rng, float cd) // default curr health to max health
@@ -89,7 +94,8 @@ public abstract class EnemyBehavior : MonoBehaviour
         speed = sp;
         attack = atk;
         range = rng;
-        cooldown = cd;
+        maxCD = cd; // max timer on cooldown
+        cooldown = 0; // current cooldown
     }
 
     // ============================== COMMON METHODS =====================================
@@ -137,5 +143,13 @@ public abstract class EnemyBehavior : MonoBehaviour
     public static Vector2 GetUnitInDir2D_Rads(float rads)
     {
         return new Vector2(Mathf.Cos(rads), Mathf.Sin(rads));
+    }
+
+    public static Vector3 RotateVector(Vector3 vec, float angle)
+    {
+        return new Vector3(
+                Mathf.Cos(angle) * vec.x - Mathf.Sin(angle) * vec.y,
+                Mathf.Sin(angle) * vec.x + Mathf.Cos(angle) * vec.y
+        );
     }
 }

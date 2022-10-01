@@ -6,8 +6,12 @@ using UnityEngine;
 public class RangedEnemyBehavior : EnemyBehavior 
 {
 
-    public void Attack()
+    public override void Attack()
     {
-        _playerBehavior.DamagePlayer(attack);
+        if (cooldown <= 0) // attack ready
+        {
+            _playerBehavior.DamagePlayer(attack);
+            cooldown = maxCD; // reset CD
+        }  
     }
 }

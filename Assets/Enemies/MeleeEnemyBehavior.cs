@@ -5,10 +5,14 @@ using UnityEngine;
 
 public class MeleeEnemyBehavior : EnemyBehavior 
 {
-    public void Attack()
+    public override void Attack()
     {
-        if (cooldown == 0) // attack ready
+        if (cooldown <= 0) // attack ready
+        {
             _playerBehavior.DamagePlayer(attack);
+            Debug.Log(_playerBehavior.hp);
+            cooldown = maxCD; // reset CD
+        }   
     }
 
 }

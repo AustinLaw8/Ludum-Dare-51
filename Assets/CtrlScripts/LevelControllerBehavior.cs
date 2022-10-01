@@ -13,15 +13,21 @@ public class LevelControllerBehavior : MonoBehaviour
 
     public GameObject player;
     private PlayerBehavior _playerBehavior; public PlayerBehavior playerBehavior {get {return _playerBehavior;}}
-    public List<EnemyBehavior> livingEnemies;
-    bool _levelActive; 
+    public bool _levelActive; 
     private Weapon _currentWeapon; 
+
+    // settings 
+    private float musicVol, sfxVol, masterVol, fontSize;
 
     private float startTime;
     private int paused; // toggle for pause menu
     void Awake()
     {
-        LevelControllerBehavior.levelController = this;
+        if (LevelControllerBehavior.levelController) {
+            Destroy(this.gameObject);
+        } else {
+            LevelControllerBehavior.levelController = this;
+        }
         _playerBehavior = player.GetComponent<PlayerBehavior>();
         _levelActive = false;
         startTime = -1;
@@ -31,28 +37,19 @@ public class LevelControllerBehavior : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        /*
-        seconds10 = 10
-        if timer < 0                    if timer > seconds10
-            do whater action                do w/e action
-            timer = seconds10               timer = 0
-        timer -= Time.deltaTime          timer += Time.deltaTime
-        */
-        
         LevelStart(); // for now, level starts at game start
     }
 
     // Update is called once per frame
     void Update()
     {
-        
         // Input
 
         //  Pause
         if(Input.GetKeyDown(KeyCode.Escape))
         {
             // cue pause menu
-            paused *= -1;
+            UiCanvasBehavior.pause();
         }
 
         //  Movement
@@ -70,30 +67,23 @@ public class LevelControllerBehavior : MonoBehaviour
         }
         _playerBehavior.Walk(movementMultiplierX, movementMultiplierY);
 
-        //  Weapon fire
-        //if (Input.mouse)
+        // Weapon fire: 0 is L, 1 is R
+        if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1)) // L targets nearest enemy, R targets mouse location, default to nearest
+        {
+            Weapon.Fire(Camera.main.ScreenToWorldPoint(Input.mousePosition)); // check doc
+        }
 
     }
 
     // called when game starts. Does setup/refresh
-    void LevelStart()
+    public void LevelStart()
     {
-        RefreshEnemies();
         player.transform.position = new Vector3(0f, 0f, 0f);
         _playerBehavior.RefreshHealth();
         _levelActive = true;
         startTime = 0f;
         paused = -1; // not paused
-    }
-
-    // Deletes all enemies and empties list
-    void RefreshEnemies()
-    {
-        while (livingEnemies.Count > 0)
-        {
-            Destroy(livingEnemies[0].gameObject);
-            livingEnemies.RemoveAt(0);
-        }
+        Weapon.currentWeapon = Weapon.WeaponType.SWORD;
     }
 }
 

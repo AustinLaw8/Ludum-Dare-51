@@ -10,7 +10,7 @@ public class PlayerBehavior : MonoBehaviour
     [SerializeField] private Camera mainCamera;
     private float _hp; public float hp {get {return _hp;}}
     private float _attack; public float attack {get {return _attack;}}
-
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -31,6 +31,12 @@ public class PlayerBehavior : MonoBehaviour
     public void DamagePlayer(float hpDamaged)
     {
         _hp = Mathf.Min(maxHp, _hp - hpDamaged);
+    }
+
+    // returns given vector's distance to player
+    public float dist2Player(Vector3 pos)
+    {
+        return Vector3.Distance(this.transform.position, pos);
     }
 
     // Controls WASD movement
