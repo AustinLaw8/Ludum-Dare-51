@@ -14,7 +14,7 @@ public class LevelControllerBehavior : MonoBehaviour
     public GameObject player;
     private PlayerBehavior _playerBehavior; public PlayerBehavior playerBehavior {get {return _playerBehavior;}}
     public bool _levelActive; 
-    private Weapon _currentWeapon; 
+    public float attackCd;
 
     // settings 
     private float musicVol, sfxVol, masterVol, fontSize;
@@ -43,13 +43,15 @@ public class LevelControllerBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        attackCd = Weapon.WeaponDict[Weapon.currentWeapon].getCooldown();
+
         // Input
 
         //  Pause
         if(Input.GetKeyDown(KeyCode.Escape))
         {
             // cue pause menu
-            UiCanvasBehavior.pause();
+            // UiCanvasBehavior.pause();
         }
 
         //  Movement
