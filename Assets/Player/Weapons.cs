@@ -6,18 +6,19 @@ public abstract class Weapon
 {
     public static float CRIT_MULTIPLIER = 1.75f;
 
-    public enum WeaponType {MELEE, RANGED};
+    public enum WeaponType {SWORD, RANGED};
     public static WeaponType currentWeapon;
     private static float _timeLastFired;
 
     // dictionary storing possible weapons
     public static Dictionary<WeaponType, Weapon> WeaponDict = new Dictionary<WeaponType, Weapon>()
     {
-        
+        { WeaponType.SWORD, new Sword() }
     };
 
     // Specific to each weapon
     protected float _cooldown, _baseAttack, _baseCritRate, _range;
+    public float getCooldown() { return _cooldown; }
     public bool offCooldown {get {return Time.time - _timeLastFired > _cooldown;}}
 
     public static void SwitchWeapon(WeaponType newWeapon)
@@ -50,27 +51,30 @@ public class Sword : Weapon
      * _range determines radius of the circle that creates the arc
      * _angle determines angle of arc within the circle
      */
-    private float angle;
+    private float _angle;
 
     public Sword()
     {
-        _cooldown = 10f;
+        _cooldown = 1f;
         _baseAttack = 10f;
         _baseCritRate = .1f;
-        _range = 1f;
+        _range = 5f;
+        _angle = 90f;
     }
 
     protected override void Fire_WeaponSpecific(Vector3 targetLocation)
     {
         Vector3 playerPosition = LevelControllerBehavior.levelController.playerBehavior.transform.position;
         Vector3 targetDirection = (targetLocation - playerPosition).normalized;
-        Vector3 counterclockwiseBound = EnemyBehavior.RotateVector(targetDirection, -angle / 2);
-        Vector3 clockwiseBound = EnemyBehavior.RotateVector(targetDirection, angle / 2);
+        Vector3 counterclockwiseBound = EnemyBehavior.RotateVector(targetDirection, -_angle / 2);
+        Vector3 clockwiseBound = EnemyBehavior.RotateVector(targetDirection, _angle / 2);
+        Debug.Log($"{playerPosition}, {targetDirection}, {counterclockwiseBound}, {clockwiseBound}");
         Collider2D[] hits = Physics2D.OverlapCircleAll(playerPosition, _range);
         foreach (var enemy in hits) {
             if (inSector(playerPosition, counterclockwiseBound, clockwiseBound, enemy.transform.position)) {
                 float baseDamage = _baseAttack * LevelControllerBehavior.levelController.playerBehavior.attack;
                 enemy.gameObject.GetComponent<EnemyBehavior>().DamageEnemy(baseDamage * Random.value <= _baseCritRate ? CRIT_MULTIPLIER : 1);
+                Debug.Log("Enemy hit with Sword");
             }
         }
     }

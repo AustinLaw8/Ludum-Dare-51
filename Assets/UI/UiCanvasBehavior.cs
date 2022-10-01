@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class UiCanvasBehavior : MonoBehaviour
 {
+    public static UiCanvasBehavior uiCanvasBehavior;
     // Boxes are "empty" GameObjects that are parents for a set of UI/Menu elements
     protected GameObject[] _exclusiveBoxes; // for setExclusiveBoxActive()
 
@@ -18,6 +19,7 @@ public class UiCanvasBehavior : MonoBehaviour
     public float masterVolumeValue;
     public void Start()
     {
+        uiCanvasBehavior = this;
         _exclusiveBoxes = new GameObject[] {boxMainMenu, boxSettings, boxCredits, boxGameUI, boxPause};
         SetExclusiveBoxActive(boxMainMenu);
         SFXvolumeValue = 0.5f;
@@ -35,7 +37,7 @@ public class UiCanvasBehavior : MonoBehaviour
         }
     }
 
-    private void SetExclusiveBoxActive(GameObject box)
+    public void SetExclusiveBoxActive(GameObject box)
     {   
         foreach (GameObject exclusiveBox in _exclusiveBoxes)
         {
@@ -66,8 +68,7 @@ public class UiCanvasBehavior : MonoBehaviour
     }
     public void ButtonPause()
     {
-        LevelControllerBehavior.levelController._levelActive = false;
-        SetExclusiveBoxActive(boxPause);
+        pause();
     }
     public void ButtonPauseBack()
     {
@@ -79,6 +80,10 @@ public class UiCanvasBehavior : MonoBehaviour
         LevelControllerBehavior.levelController._levelActive = false;
         SetExclusiveBoxActive(boxMainMenu);
     }
-   // public void Pause();
+    public void pause()
+    {
+        LevelControllerBehavior.levelController._levelActive = false;
+        SetExclusiveBoxActive(boxPause);
+    }
 
 }

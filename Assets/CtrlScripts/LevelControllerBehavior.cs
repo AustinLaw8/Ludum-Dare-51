@@ -20,7 +20,6 @@ public class LevelControllerBehavior : MonoBehaviour
     private float musicVol, sfxVol, masterVol, fontSize;
 
     private float startTime;
-    private int paused; // toggle for pause menu
     void Awake()
     {
         if (LevelControllerBehavior.levelController) {
@@ -28,6 +27,7 @@ public class LevelControllerBehavior : MonoBehaviour
         } else {
             LevelControllerBehavior.levelController = this;
         }
+        if (player == null) player = GameObject.Find("Player");
         _playerBehavior = player.GetComponent<PlayerBehavior>();
         _levelActive = false;
         startTime = -1;
@@ -37,7 +37,7 @@ public class LevelControllerBehavior : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        LevelStart(); // for now, level starts at game start
+        _levelActive = false;
     }
 
     // Update is called once per frame
@@ -49,7 +49,7 @@ public class LevelControllerBehavior : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Escape))
         {
             // cue pause menu
-            UiCanvasBehavior.pause();
+            UiCanvasBehavior.uiCanvasBehavior.pause();
         }
 
         //  Movement
@@ -82,9 +82,6 @@ public class LevelControllerBehavior : MonoBehaviour
         _playerBehavior.RefreshHealth();
         _levelActive = true;
         startTime = 0f;
-        paused = -1; // not paused
         Weapon.currentWeapon = Weapon.WeaponType.SWORD;
     }
 }
-
-
