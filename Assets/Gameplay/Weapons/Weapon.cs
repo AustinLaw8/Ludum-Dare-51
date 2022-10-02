@@ -8,8 +8,6 @@ public abstract class Weapon : MonoBehaviour
 
     public enum WeaponType {SWORD, STAR, DYNAMITE};
 
-    public Vector3 offset;
-
     // Weapon stats
     protected float _cooldown;
     protected float _baseAttack;
@@ -30,6 +28,7 @@ public abstract class Weapon : MonoBehaviour
 
     void Update()
     {
+        update();
         _cooldownTimer += Time.deltaTime;
         if (offCooldown()) 
         {
@@ -61,6 +60,13 @@ public abstract class Weapon : MonoBehaviour
         enemyBehavior.DamageEnemy(damageTaken);
     }
 
+    public float getDamage() {
+        PlayerBehavior player = LevelControllerBehavior.levelController.playerBehavior;
+        float baseDamage = _baseAttack * player.attack / 100f;
+        return Random.value <= (_baseCritRate + player.critRate) ? baseDamage * CRIT_MULTIPLIER : baseDamage;
+    }
+
+    protected virtual void update() {} 
     protected virtual void reset() {}
     protected virtual void WeaponSpecificSetup() {}
 }
