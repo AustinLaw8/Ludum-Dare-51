@@ -11,7 +11,8 @@ public class MeleeEnemyBehavior : EnemyBehavior
         {
             _playerBehavior.DamagePlayer(attack);
             cooldown = maxCD; // reset CD
-        }   
+            anim.SetBool("attacking", true);
+        }
     }
 
 }

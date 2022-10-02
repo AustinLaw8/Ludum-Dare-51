@@ -6,6 +6,7 @@ using UnityEngine;
 public abstract class EnemyBehavior : MonoBehaviour 
 {
     protected static PlayerBehavior _playerBehavior; 
+    protected Animator anim;
 
     // Enemy fields
     public float attack, range, speed, hp, maxHp, cooldown, maxCD; // cd for attacking
@@ -29,6 +30,7 @@ public abstract class EnemyBehavior : MonoBehaviour
     public void move2Player()
     {
         // Gets unit vector in direction of player, then multiplies by speed * time to get deltaPosition to add
+        anim.SetBool("attacking", false);
         transform.position += (_playerBehavior.transform.position - this.transform.position).normalized * speed * Time.deltaTime;
     }
 
@@ -39,17 +41,18 @@ public abstract class EnemyBehavior : MonoBehaviour
 
     public void DamageEnemy(float amt)
     {
-        Debug.Log("EnemyHit");
         hp = Mathf.Min(maxHp, hp - amt); // overheal boundary case
         if (hp <= 0) {
             Destroy(this.gameObject);
         }
+        // StartCoroutine(flashWhite());
     }
 
     public abstract void Attack();
     
     void Start()
     {
+        anim = this.gameObject.GetComponent<Animator>();
         Setup(maxHp, speed, attack, range, cooldown);
     }
 
@@ -86,6 +89,10 @@ public abstract class EnemyBehavior : MonoBehaviour
         maxCD = cd; // max timer on cooldown
         cooldown = 0; // current cooldown
     }
+
+    // private IEnumerator flashWhite() {
+    //     yield return new WaitForEndOfFrame();
+    // }
 
     // ============================== COMMON METHODS =====================================
     public static Vector2 Vec3ToVec2(Vector3 vec)
