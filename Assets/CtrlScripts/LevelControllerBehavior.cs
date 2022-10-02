@@ -109,7 +109,6 @@ public class LevelControllerBehavior : MonoBehaviour
         _levelActive = true;
         _gameDuration = 0f;
         _gameDurationNextSwap = 10f;
-        Weapon.currentWeapon = Weapon.WeaponType.SWORD;
         currentWeapon = GameObject.Instantiate(
                 weaponPrefabs[Weapon.WeaponType.SWORD],
                 weaponPrefabs[Weapon.WeaponType.SWORD].GetComponent<Weapon>().offset + new Vector3(PLAYER_CENTER.x + PLAYER_RADIUS, PLAYER_CENTER.y, 0f),
