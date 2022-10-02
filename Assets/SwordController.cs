@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SwordController : MonoBehaviour
 {
-    private HashSet<GameObject> hits;
+    public HashSet<GameObject> hits;
 
     void Start()
     {
@@ -18,20 +18,4 @@ public class SwordController : MonoBehaviour
             hitObj.GetComponent<EnemyBehavior>().DamageEnemy(this.transform.parent.GetComponent<Weapon>().getDamage());
         }
     }
-    // void OnCollisionStay2D(Collision2D hit) {
-    //     Debug.Log("hit urself");
-    //     GameObject hitObj = hit.gameObject;
-    //     if (!hits.Contains(hitObj)) {
-    //         hits.Add(hitObj);
-    //         hitObj.GetComponent<EnemyBehavior>().DamageEnemy(this.transform.parent.GetComponent<Weapon>().getDamage());
-    //     }
-    // }
-    // void OnCollisionExit2D(Collision2D hit) {
-    //     Debug.Log("hit urself");
-    //     GameObject hitObj = hit.gameObject;
-    //     if (!hits.Contains(hitObj)) {
-    //         hits.Add(hitObj);
-    //         hitObj.GetComponent<EnemyBehavior>().DamageEnemy(this.transform.parent.GetComponent<Weapon>().getDamage());
-    //     }
-    // }
 }

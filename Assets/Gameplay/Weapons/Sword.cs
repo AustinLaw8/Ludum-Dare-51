@@ -47,17 +47,14 @@ public class Sword : Weapon
         anim.Play(SWING_ANIMATION_NAME);
     }
 
-    // protected override void WeaponSpecificSetup()
-    // {
-    //     bx = this.transform.GetChild(0).GetComponent<BoxCollider2D>().enabled = false;
-    //      bx.enabled = false;
-        // SWING_ANIMATION_TIME = 14f / Application.targetFrameRate;
-    // 
-    // }
+    protected override void WeaponSpecificSetup()
+    {
+        bx = this.transform.GetChild(0).GetComponent<BoxCollider2D>();
+        bx.enabled = false;
+    }
 
     protected override void update()
     {
-        if (bx == null) bx = this.transform.GetChild(0).GetComponent<BoxCollider2D>();
         if(attacking)
         {
             bx.transform.Rotate(new Vector3 (0f, 0f, -90f / _cooldown * Time.deltaTime));
@@ -68,13 +65,13 @@ public class Sword : Weapon
     { 
         if (!anim.GetCurrentAnimatorStateInfo(0).IsName(SWING_ANIMATION_NAME))
         {
-            Debug.Log("reset");
             this.transform.localPosition = new Vector3(
                     LevelControllerBehavior.PLAYER_CENTER.x + LevelControllerBehavior.PLAYER_RADIUS,
                     LevelControllerBehavior.PLAYER_CENTER.y,
                     0f
             );
         }
+        bx.gameObject.GetComponent<SwordController>().hits.Clear();
         this.transform.rotation = Quaternion.identity;
         bx.transform.rotation = Quaternion.identity;
         bx.enabled = false;
