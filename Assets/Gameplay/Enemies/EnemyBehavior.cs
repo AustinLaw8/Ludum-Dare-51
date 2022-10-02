@@ -55,17 +55,20 @@ public abstract class EnemyBehavior : MonoBehaviour
 
     void Update()
     {
-        if (range < dist2Player())
-            move2Player(); // set default x,y multipliers
-        else
-            Attack();
-        facePlayer();
-        // update cooldown if necessary
+        if (LevelControllerBehavior.levelController._levelActive)
+        {
+            if (range < dist2Player())
+                move2Player(); // set default x,y multipliers
+            else
+                Attack();
+            facePlayer();
+            // update cooldown if necessary
 
-        if (cooldown > 0)
-            cooldown -= Time.deltaTime;
+            if (cooldown > 0)
+                cooldown -= Time.deltaTime;
 
-        LevelControllerBehavior.SetYDependentOrderInLayer(gameObject);
+            LevelControllerBehavior.SetYDependentOrderInLayer(gameObject);
+        }
     }
 
     protected void Setup(float health, float sp, float atk, float rng, float cd) // default curr health to max health

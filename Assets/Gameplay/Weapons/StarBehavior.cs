@@ -29,27 +29,30 @@ public class StarBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // current position add starEnemyDirection *t *dt *speed
-        Vector3 starDirectionUnitV3 = new Vector3(starDirectionUnit.x, starDirectionUnit.y, 0);
-        Vector3 displacement = starDirectionUnitV3 * Time.deltaTime * starTravelSpeed;
-
-        RaycastHit2D[] starHits = Physics2D.CircleCastAll(transform.position, 0.37f, starDirectionUnitV3);
-        foreach (RaycastHit2D starHit in starHits)
+        if (LevelControllerBehavior.levelController._levelActive)
         {
-            EnemyBehavior hitBehavior = starHit.transform.gameObject.GetComponent<EnemyBehavior>();
-            if (hitBehavior && !enemiesAlreadyHit.Contains(hitBehavior))
+            // current position add starEnemyDirection *t *dt *speed
+            Vector3 starDirectionUnitV3 = new Vector3(starDirectionUnit.x, starDirectionUnit.y, 0);
+            Vector3 displacement = starDirectionUnitV3 * Time.deltaTime * starTravelSpeed;
+
+            RaycastHit2D[] starHits = Physics2D.CircleCastAll(transform.position, 0.37f, starDirectionUnitV3);
+            foreach (RaycastHit2D starHit in starHits)
             {
-                Weapon.DamageEnemy(starAttack, starCritRate, hitBehavior);
-                enemiesAlreadyHit.Add(hitBehavior);
+                EnemyBehavior hitBehavior = starHit.transform.gameObject.GetComponent<EnemyBehavior>();
+                if (hitBehavior && !enemiesAlreadyHit.Contains(hitBehavior))
+                {
+                    Weapon.DamageEnemy(starAttack, starCritRate, hitBehavior);
+                    enemiesAlreadyHit.Add(hitBehavior);
+                }
             }
-        }
 
-        transform.position += displacement;
-        distanceTraveled += Mathf.Sqrt(Mathf.Pow(displacement.x,2) + Mathf.Pow(displacement.y,2));
-        if (distanceTraveled >= starTravelRange)
-        {
-            Destroy(gameObject);
+            transform.position += displacement;
+            distanceTraveled += Mathf.Sqrt(Mathf.Pow(displacement.x,2) + Mathf.Pow(displacement.y,2));
+            if (distanceTraveled >= starTravelRange)
+            {
+                Destroy(gameObject);
+            }
+            LevelControllerBehavior.SetYDependentOrderInLayer(gameObject);
         }
-        LevelControllerBehavior.SetYDependentOrderInLayer(gameObject);
     }
 }

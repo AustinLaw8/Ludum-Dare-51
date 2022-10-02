@@ -19,6 +19,7 @@ public class LevelControllerBehavior : MonoBehaviour
 
     public GameObject player;
     private PlayerBehavior _playerBehavior; public PlayerBehavior playerBehavior {get {return _playerBehavior;}}
+    [SerializeField] private GameObject _swapOptionsBox; private SwapOptionsBehavior _swapOptionsBehavior;
     public bool _levelActive; 
     public Weapon currentWeapon;
 
@@ -41,6 +42,7 @@ public class LevelControllerBehavior : MonoBehaviour
         }
         if (player == null) player = GameObject.Find("Player");
         _playerBehavior = player.GetComponent<PlayerBehavior>();
+        _swapOptionsBehavior = _swapOptionsBox.GetComponent<SwapOptionsBehavior>();
         _levelActive = false;
         _gameDuration = 0f;
         _gameDurationNextSwap = 10f;   
@@ -108,6 +110,12 @@ public class LevelControllerBehavior : MonoBehaviour
             {
                 currentWeapon.Fire(Camera.main.ScreenToWorldPoint(Input.mousePosition)); // check doc
             }
+
+            // Swap selection
+            if (Input.GetKey(KeyCode.Q) != Input.GetKey(KeyCode.E))
+            {
+                _swapOptionsBehavior.SelectOption(Input.GetKey(KeyCode.Q) ? SwapOptionsBehavior.SelectionOption.LEFT : SwapOptionsBehavior.SelectionOption.RIGHT);
+            }
         }
     }
 
@@ -125,6 +133,7 @@ public class LevelControllerBehavior : MonoBehaviour
                 Quaternion.identity,
                 _playerBehavior.transform)
                 .GetComponent<Weapon>();
+        _swapOptionsBehavior.SelectOption(SwapOptionsBehavior.SelectionOption.LEFT);
         SpawnEnemyWave();
     }
 

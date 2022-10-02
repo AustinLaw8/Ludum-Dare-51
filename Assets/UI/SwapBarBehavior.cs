@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class SwapBarBehavior : MonoBehaviour
 {
     public Image swapBarInner;
+    public TMPro.TMP_Text timerNumber;
 
     private PlayerBehavior _behaviorPlayer;
     private Transform _thisTransform;
@@ -20,16 +21,20 @@ public class SwapBarBehavior : MonoBehaviour
         swapBarInner.fillMethod = Image.FillMethod.Horizontal;
         swapBarInner.fillOrigin = (int)Image.OriginHorizontal.Left;
         swapBarInner.fillAmount = 0f;
+        timerNumber.text = "1";
     }
 
     // Update is called once per frame
     void Update()
     {
-        // Update health bar fill ratio
         if (LevelControllerBehavior.levelController._levelActive)
         {
+            float dimlessTimeTilSwap = LevelControllerBehavior.levelController.dimensionlessClampedTimeTilNextSwap;
             // Update inner health bar fill ratio
-            swapBarInner.fillAmount = LevelControllerBehavior.levelController.dimensionlessClampedTimeTilNextSwap;
+            swapBarInner.fillAmount = dimlessTimeTilSwap;
+            
+            // Update timer text
+            timerNumber.text = "<b>" + (Mathf.FloorToInt(dimlessTimeTilSwap * 10f) + 1).ToString() + "</b>";
         }
     }
 }

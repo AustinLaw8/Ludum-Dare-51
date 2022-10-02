@@ -36,37 +36,40 @@ public class DynamiteBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // current position add dynamiteEnemyDirection *t *dt *speed
-        Vector3 dynamiteDirectionUnitV3 = new Vector3(dynamiteDirectionUnit.x, dynamiteDirectionUnit.y, 0);
-        Vector3 displacement = dynamiteDirectionUnitV3 * Time.deltaTime * dynamiteTravelSpeed;
-
-        transform.position += displacement;
-        distanceTraveled += Mathf.Sqrt(Mathf.Pow(displacement.x,2) + Mathf.Pow(displacement.y,2));
-        if (distanceTraveled >= dynamiteTravelRange)
+        if (LevelControllerBehavior.levelController._levelActive)
         {
-            GameObject tempGameObject = new GameObject();
-            CircleCollider2D dynamiteCollider = tempGameObject.AddComponent<CircleCollider2D>();
-            dynamiteCollider.transform.position = transform.position;
-            dynamiteCollider.radius = blastRadius;
-            Collider2D[] enemiesBlasted = new Collider2D[50];
-            ContactFilter2D filter = new ContactFilter2D();
-            filter.NoFilter();
-            dynamiteCollider.OverlapCollider(filter, enemiesBlasted);
-            foreach (Collider2D enemyBlasted in enemiesBlasted)
+            // current position add dynamiteEnemyDirection *t *dt *speed
+            Vector3 dynamiteDirectionUnitV3 = new Vector3(dynamiteDirectionUnit.x, dynamiteDirectionUnit.y, 0);
+            Vector3 displacement = dynamiteDirectionUnitV3 * Time.deltaTime * dynamiteTravelSpeed;
+
+            transform.position += displacement;
+            distanceTraveled += Mathf.Sqrt(Mathf.Pow(displacement.x,2) + Mathf.Pow(displacement.y,2));
+            if (distanceTraveled >= dynamiteTravelRange)
             {
-                if (!enemyBlasted) {break;}
-                EnemyBehavior hitBehavior = enemyBlasted.transform.gameObject.GetComponent<EnemyBehavior>();
-                if (hitBehavior)
+                GameObject tempGameObject = new GameObject();
+                CircleCollider2D dynamiteCollider = tempGameObject.AddComponent<CircleCollider2D>();
+                dynamiteCollider.transform.position = transform.position;
+                dynamiteCollider.radius = blastRadius;
+                Collider2D[] enemiesBlasted = new Collider2D[50];
+                ContactFilter2D filter = new ContactFilter2D();
+                filter.NoFilter();
+                dynamiteCollider.OverlapCollider(filter, enemiesBlasted);
+                foreach (Collider2D enemyBlasted in enemiesBlasted)
                 {
-                    Weapon.DamageEnemy(dynamiteAttack, dynamiteCritRate, hitBehavior);
+                    if (!enemyBlasted) {break;}
+                    EnemyBehavior hitBehavior = enemyBlasted.transform.gameObject.GetComponent<EnemyBehavior>();
+                    if (hitBehavior)
+                    {
+                        Weapon.DamageEnemy(dynamiteAttack, dynamiteCritRate, hitBehavior);
+                    }
                 }
+                GameObject newProjectile = GameObject.Instantiate(DynamiteExplosionPrefab) as GameObject;
+                newProjectile.transform.position = transform.position;
+                Destroy(dynamiteCollider);
+                Destroy(tempGameObject);
+                Destroy(gameObject);
             }
-            GameObject newProjectile = GameObject.Instantiate(DynamiteExplosionPrefab) as GameObject;
-            newProjectile.transform.position = transform.position;
-            Destroy(dynamiteCollider);
-            Destroy(tempGameObject);
-            Destroy(gameObject);
+            LevelControllerBehavior.SetYDependentOrderInLayer(gameObject);
         }
-        LevelControllerBehavior.SetYDependentOrderInLayer(gameObject);
     }
 }
