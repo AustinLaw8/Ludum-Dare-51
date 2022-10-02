@@ -11,6 +11,7 @@ public class Star : Weapon
         GameObject newProjectile = GameObject.Instantiate(StarProjectilePrefab) as GameObject;  
         Vector2 starPath = targetLocation - _playerTransform.position;   
         newProjectile.GetComponent<StarBehavior>().SetUp(_baseAttack, _baseCritRate, _range, _flySpeed, starPath);
+        GetComponent<SpriteRenderer>().enabled = false;
     }
     public Star()
     {
@@ -19,5 +20,13 @@ public class Star : Weapon
         _baseCritRate = .2f;
         _range = 50f;
         _flySpeed = 20f;
+    }
+    protected override void reset() 
+    {
+        GetComponent<SpriteRenderer>().enabled = true;
+    }
+    protected override void WeaponSpecificSetup()
+    {
+        transform.localPosition *= 1.5f;
     }
 }

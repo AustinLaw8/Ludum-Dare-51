@@ -45,7 +45,7 @@ public class StarBehavior : MonoBehaviour
         }
 
         transform.position += displacement;
-        distanceTraveled = Mathf.Sqrt(Mathf.Pow(displacement.x,2) + Mathf.Pow(displacement.y,2));
+        distanceTraveled += Mathf.Sqrt(Mathf.Pow(displacement.x,2) + Mathf.Pow(displacement.y,2));
         if (distanceTraveled >= starTravelRange)
         {
             Destroy(gameObject);

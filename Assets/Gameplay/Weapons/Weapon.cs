@@ -6,7 +6,7 @@ public abstract class Weapon : MonoBehaviour
 {
     public static float CRIT_MULTIPLIER = 1.75f;
 
-    public enum WeaponType {SWORD, STAR};
+    public enum WeaponType {SWORD, STAR, DYNAMITE};
 
     public Vector3 offset;
 
@@ -25,6 +25,7 @@ public abstract class Weapon : MonoBehaviour
     {
         anim = this.gameObject.GetComponent<Animator>();
         _cooldownTimer = _cooldown;
+        WeaponSpecificSetup();
     }
 
     void Update()
@@ -61,6 +62,7 @@ public abstract class Weapon : MonoBehaviour
     }
 
     protected virtual void reset() {}
+    protected virtual void WeaponSpecificSetup() {}
 }
 
 /*

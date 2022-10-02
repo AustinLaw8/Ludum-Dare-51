@@ -21,13 +21,14 @@ public class LevelControllerBehavior : MonoBehaviour
     /* Weapon prefabs */
     public GameObject SWORD_PREFAB;
     public GameObject STAR_PREFAB;
+    public GameObject DYNAMITE_PREFAB;
     public Dictionary<Weapon.WeaponType, GameObject> weaponPrefabs;
 
     // settings 
     private float musicVol, sfxVol, masterVol, fontSize;
 
     private float _gameDuration, _gameDurationNextSwap;
-    public float dimensionlessClampedTimeTilNextSwap {get {Debug.Log(_gameDurationNextSwap);return Mathf.Clamp((10f -_gameDurationNextSwap + _gameDuration) / 10f, 0f, 1f);}}
+    public float dimensionlessClampedTimeTilNextSwap {get {return Mathf.Clamp((10f -_gameDurationNextSwap + _gameDuration) / 10f, 0f, 1f);}}
     void Awake()
     {
         if (LevelControllerBehavior.levelController) {
@@ -42,7 +43,8 @@ public class LevelControllerBehavior : MonoBehaviour
         _gameDurationNextSwap = 10f;   
         weaponPrefabs = new Dictionary<Weapon.WeaponType, GameObject>() {
                 { Weapon.WeaponType.SWORD, SWORD_PREFAB },
-                { Weapon.WeaponType.STAR, STAR_PREFAB   }
+                { Weapon.WeaponType.STAR, STAR_PREFAB   },
+                { Weapon.WeaponType.DYNAMITE, DYNAMITE_PREFAB}
                 };
                 
                 
@@ -115,8 +117,8 @@ public class LevelControllerBehavior : MonoBehaviour
         _gameDuration = 0f;
         _gameDurationNextSwap = 10f;
         currentWeapon = GameObject.Instantiate(
-                weaponPrefabs[Weapon.WeaponType.STAR],
-                /*weaponPrefabs[Weapon.WeaponType.SWORD].GetComponent<Weapon>().offset +*/ new Vector3(PLAYER_CENTER.x + PLAYER_RADIUS, PLAYER_CENTER.y, 0f),
+                weaponPrefabs[Weapon.WeaponType.DYNAMITE],
+                new Vector3(PLAYER_CENTER.x + PLAYER_RADIUS * (playerBehavior.facingLeft ? -1f : 1f), PLAYER_CENTER.y, 0f),
                 Quaternion.identity,
                 _playerBehavior.transform)
                 .GetComponent<Weapon>();
