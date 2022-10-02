@@ -101,9 +101,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attack: 5
   range: 2
-  speed: 3
-  hp: 5
-  maxHp: 5
+  speed: 2
+  hp: 24
+  maxHp: 15
   cooldown: 2
   maxCD: 2
 --- !u!95 &813174236206346161

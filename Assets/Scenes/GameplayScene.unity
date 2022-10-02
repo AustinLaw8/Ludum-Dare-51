@@ -679,11 +679,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4138228182720939332, guid: ef43cad2815104e2a800740cf6cd695f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5.61
+      value: -3.78
       objectReference: {fileID: 0}
     - target: {fileID: 4138228182720939332, guid: ef43cad2815104e2a800740cf6cd695f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.55645746
+      value: -1.18
       objectReference: {fileID: 0}
     - target: {fileID: 4138228182720939332, guid: ef43cad2815104e2a800740cf6cd695f, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1536,6 +1536,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25985008f72ece346b822ff09def003e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MELEE_ENEMY_PREFAB: {fileID: 813174236206346165, guid: 52de7614a2360405a94499cd9f5508e2, type: 3}
   player: {fileID: 177446033}
   _levelActive: 0
   currentWeapon: {fileID: 0}
