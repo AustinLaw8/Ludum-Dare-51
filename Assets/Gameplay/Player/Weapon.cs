@@ -6,8 +6,9 @@ public abstract class Weapon
 {
     public static float CRIT_MULTIPLIER = 1.75f;
 
-    public enum WeaponType {SWORD, RANGED};
+    public enum WeaponType {SWORD, STAR};
     public static WeaponType currentWeapon;
+    public static Weapon currentWeaponObject {get {return WeaponDict[currentWeapon];}}
     private static float _timeLastFired;
 
     // dictionary storing possible weapons
@@ -19,6 +20,9 @@ public abstract class Weapon
     // Specific to each weapon
     protected float _cooldown, _baseAttack, _baseCritRate, _range;
     public float getCooldown() { return _cooldown; }
+    
+    // 1 when off cooldown, 0 when ability recently used 
+    public float getCooldownProportionCompleted {get {return Mathf.Clamp((Time.time - _timeLastFired) / _cooldown, 0f, 1f);}}
     public bool offCooldown {get {return Time.time - _timeLastFired > _cooldown;}}
 
     public static void SwitchWeapon(WeaponType newWeapon)
@@ -68,7 +72,7 @@ public class Sword : Weapon
         Vector3 targetDirection = (targetLocation - playerPosition).normalized;
         Vector3 counterclockwiseBound = EnemyBehavior.RotateVector(targetDirection, -_angle / 2);
         Vector3 clockwiseBound = EnemyBehavior.RotateVector(targetDirection, _angle / 2);
-        Debug.Log($"{playerPosition}, {targetDirection}, {counterclockwiseBound}, {clockwiseBound}");
+        //Debug.Log($"{playerPosition}, {targetDirection}, {counterclockwiseBound}, {clockwiseBound}");
         Collider2D[] hits = Physics2D.OverlapCircleAll(playerPosition, _range);
         foreach (var enemy in hits) {
             if (inSector(playerPosition, counterclockwiseBound, clockwiseBound, enemy.transform.position)) {
@@ -91,10 +95,15 @@ public class Sword : Weapon
 
 //#region < ================================== RANGED WEAPON ======================================>
 
-public class RangedWeapon : Weapon
+public class Star : Weapon
 {
+    private float _flySpeed;
     protected override void Fire_WeaponSpecific(Vector3 targetLocation)
     {
-
+        _cooldown = .35f;
+        _baseAttack = 3f;
+        _baseCritRate = .2f;
+        _range = 50f;
+        _flySpeed = 10f;
     }
 }
