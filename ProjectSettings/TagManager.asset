@@ -51,3 +51,6 @@ TagManager:
   - name: Player
     uniqueID: 2977330319
     locked: 0
+  - name: Fan
+    uniqueID: 1602768467
+    locked: 0

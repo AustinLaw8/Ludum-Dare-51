@@ -5,8 +5,9 @@ using UnityEngine;
 public abstract class Weapon : MonoBehaviour
 {
     public static float CRIT_MULTIPLIER = 1.75f;
+    public static float WEAPON_MAX_RANGE = 50f;
 
-    public enum WeaponType {SWORD, STAR, DYNAMITE};
+    public enum WeaponType {SWORD, STAR, DYNAMITE, FAN};
 
     // Weapon stats
     protected float _cooldown;
@@ -40,7 +41,7 @@ public abstract class Weapon : MonoBehaviour
     {
         if (offCooldown())
         {
-            Fire_Weapon(targetLocation);
+            Fire_Weapon(new Vector3(targetLocation.x, targetLocation.y, 0f));
             _cooldownTimer = 0f;
         }
     }
@@ -64,6 +65,12 @@ public abstract class Weapon : MonoBehaviour
         PlayerBehavior player = LevelControllerBehavior.levelController.playerBehavior;
         float baseDamage = _baseAttack * player.attack / 100f;
         return Random.value <= (_baseCritRate + player.critRate) ? baseDamage * CRIT_MULTIPLIER : baseDamage;
+    }
+    
+    public static float getDamage(float baseAttack, float baseCritRate) {
+        PlayerBehavior player = LevelControllerBehavior.levelController.playerBehavior;
+        float baseDamage = baseAttack * player.attack / 100f;
+        return Random.value <= (baseCritRate + player.critRate) ? baseDamage * CRIT_MULTIPLIER : baseDamage;
     }
 
     protected virtual void update() {} 

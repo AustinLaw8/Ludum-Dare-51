@@ -3,11 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /**
- * Sword weapon
- * Attacks in an arc in the target direction
+ * Sword
+ *      Attacks in an arc in the target direction
  * 
- * _range determines radius of the circle that creates the arc
- * _angle determines angle of arc within the circle
+ * Stats:
+ *      - Damage:   10
+ *      - Crit:     10%
+ *      - CD:       .25
+ * 
+ * Sword Specific Stats:
+ *      - Angle of attack:  90 degrees
+ *      -
  */
 public class Sword : Weapon
 {
@@ -22,7 +28,6 @@ public class Sword : Weapon
         _cooldown = .25f;
         _baseAttack = 10f;
         _baseCritRate = .1f;
-        _range = 5f;
         _angle = 90f;
     }
 

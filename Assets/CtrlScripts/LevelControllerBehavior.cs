@@ -24,7 +24,7 @@ public class LevelControllerBehavior : MonoBehaviour
     public Weapon currentWeapon;
 
     /* Weapon prefabs */
-    public GameObject SWORD_PREFAB, STAR_PREFAB, DYNAMITE_PREFAB;
+    public GameObject SWORD_PREFAB, STAR_PREFAB, DYNAMITE_PREFAB, FAN_PREFAB;
     public Dictionary<Weapon.WeaponType, GameObject> weaponPrefabs;
 
     // settings 
@@ -49,7 +49,8 @@ public class LevelControllerBehavior : MonoBehaviour
         weaponPrefabs = new Dictionary<Weapon.WeaponType, GameObject>() {
                 { Weapon.WeaponType.SWORD, SWORD_PREFAB },
                 { Weapon.WeaponType.STAR, STAR_PREFAB   },
-                { Weapon.WeaponType.DYNAMITE, DYNAMITE_PREFAB}
+                { Weapon.WeaponType.DYNAMITE, DYNAMITE_PREFAB},
+                { Weapon.WeaponType.FAN, FAN_PREFAB}
                 };
                 
                 
@@ -128,7 +129,7 @@ public class LevelControllerBehavior : MonoBehaviour
         _gameDuration = 0f;
         _gameDurationNextSwap = 10f;
         currentWeapon = GameObject.Instantiate(
-                weaponPrefabs[Weapon.WeaponType.SWORD],
+                weaponPrefabs[Weapon.WeaponType.FAN],
                 new Vector3(PLAYER_CENTER.x + PLAYER_RADIUS * (playerBehavior.facingLeft ? -1f : 1f), PLAYER_CENTER.y, 0f),
                 Quaternion.identity,
                 _playerBehavior.transform)
