@@ -94,8 +94,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6918571580733735191}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76fb43a24296a7844859acc30da4b54c, type: 3}
+  m_Script: {fileID: 11500000, guid: ed1b8d9416d87b74d9dbaa56bae9f54f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  offset: {x: 0, y: 0, z: 0}
   StarProjectilePrefab: {fileID: 6419859601643723684, guid: d312d4facf5975f47a04928973bf7ba7, type: 3}

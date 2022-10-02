@@ -1797,6 +1797,7 @@ MonoBehaviour:
   SWORD_PREFAB: {fileID: 6384403885026141109, guid: 1ee402407b61e46f29c8e632ecbd8a3d, type: 3}
   STAR_PREFAB: {fileID: 6918571580733735191, guid: 376a9fda9e8e0a543855b923d3c32d32, type: 3}
   DYNAMITE_PREFAB: {fileID: 187508149961926438, guid: 1e02de957195be0418dbc7d7562ca9fa, type: 3}
+  FAN_PREFAB: {fileID: 7625236856919374472, guid: 89bfe5f2ccd484412ad20c37e2cc1549, type: 3}
 --- !u!1 &728146614
 GameObject:
   m_ObjectHideFlags: 0

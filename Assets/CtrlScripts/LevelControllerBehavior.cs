@@ -129,7 +129,7 @@ public class LevelControllerBehavior : MonoBehaviour
         _gameDuration = 0f;
         _gameDurationNextSwap = 10f;
         currentWeapon = GameObject.Instantiate(
-                weaponPrefabs[Weapon.WeaponType.FAN],
+                weaponPrefabs[Weapon.WeaponType.STAR],
                 new Vector3(PLAYER_CENTER.x + PLAYER_RADIUS * (playerBehavior.facingLeft ? -1f : 1f), PLAYER_CENTER.y, 0f),
                 Quaternion.identity,
                 _playerBehavior.transform)
