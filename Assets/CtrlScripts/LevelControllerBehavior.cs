@@ -92,4 +92,11 @@ public class LevelControllerBehavior : MonoBehaviour
         startTime = 0f;
         Weapon.currentWeapon = Weapon.WeaponType.SWORD;
     }
+
+    // Called by any gameObject with a SpriteRenderer in their Update to set their OrderInLayer to a value dependent on the lowest point of their y-position
+    public static void SetYDependentOrderInLayer(GameObject callingObject)
+    {
+        SpriteRenderer renderer = callingObject.GetComponent<SpriteRenderer>();
+        //renderer.bounds.
+    }
 }

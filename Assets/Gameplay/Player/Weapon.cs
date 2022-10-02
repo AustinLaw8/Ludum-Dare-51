@@ -97,8 +97,18 @@ public class Sword : Weapon
 
 public class Star : Weapon
 {
+    [SerializeField] private GameObject StarProjectilePrefab;
     private float _flySpeed;
+    private Vector2 _targetLocation;
+    //convert 3v to 2v create new v2  |  targetx-playerx , targety,playery
     protected override void Fire_WeaponSpecific(Vector3 targetLocation)
+    {
+        //LevelControllerBehavior.levelController.playerBehavior.transform.position;
+
+        //GameObject newProjectile = GameObject.Instantiate(StarProjectilePrefab, /* insert spawn position here */) as GameObject;
+        
+    }
+    public Star()
     {
         _cooldown = .35f;
         _baseAttack = 3f;
