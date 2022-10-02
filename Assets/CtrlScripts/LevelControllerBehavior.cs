@@ -20,6 +20,7 @@ public class LevelControllerBehavior : MonoBehaviour
 
     /* Weapon prefabs */
     public GameObject SWORD_PREFAB;
+    public GameObject STAR_PREFAB;
     public Dictionary<Weapon.WeaponType, GameObject> weaponPrefabs;
 
     // settings 
@@ -40,7 +41,11 @@ public class LevelControllerBehavior : MonoBehaviour
         _gameDuration = 0f;
         _gameDurationNextSwap = 10f;   
         weaponPrefabs = new Dictionary<Weapon.WeaponType, GameObject>() {
-                { Weapon.WeaponType.SWORD, SWORD_PREFAB }};
+                { Weapon.WeaponType.SWORD, SWORD_PREFAB },
+                { Weapon.WeaponType.STAR, STAR_PREFAB   }
+                };
+                
+                
     }
 
     // Start is called before the first frame update
@@ -105,13 +110,13 @@ public class LevelControllerBehavior : MonoBehaviour
     public void LevelStart()
     {
         player.transform.position = new Vector3(0f, 0f, 0f);
-        _playerBehavior.RefreshHealth();
+        _playerBehavior.RefreshPlayerStatsAndHealth();
         _levelActive = true;
         _gameDuration = 0f;
         _gameDurationNextSwap = 10f;
         currentWeapon = GameObject.Instantiate(
-                weaponPrefabs[Weapon.WeaponType.SWORD],
-                weaponPrefabs[Weapon.WeaponType.SWORD].GetComponent<Weapon>().offset + new Vector3(PLAYER_CENTER.x + PLAYER_RADIUS, PLAYER_CENTER.y, 0f),
+                weaponPrefabs[Weapon.WeaponType.STAR],
+                /*weaponPrefabs[Weapon.WeaponType.SWORD].GetComponent<Weapon>().offset +*/ new Vector3(PLAYER_CENTER.x + PLAYER_RADIUS, PLAYER_CENTER.y, 0f),
                 Quaternion.identity,
                 _playerBehavior.transform)
                 .GetComponent<Weapon>();

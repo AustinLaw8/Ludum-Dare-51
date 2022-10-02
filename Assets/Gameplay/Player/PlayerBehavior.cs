@@ -4,12 +4,15 @@ using UnityEngine;
 
 public class PlayerBehavior : MonoBehaviour
 {
-    public float maxHp, speed;
+    public float originalMaxHp, baseSpeed;
     [SerializeField] private Camera _mainCamera;
     [SerializeField] private UnityEngine.UI.Image _healthBar;
     private HealthBarBehavior _healthBarBehavior;
+    private float _maxHp; public float maxHp {get {return _maxHp;}}
     private float _hp; public float hp {get {return _hp;}}
     private float _attack; public float attack {get {return _attack;}}
+    private float _critRate; public float critRate {get {return _critRate;}}
+    private float _speedStat; public float speedStat {get {return _speedStat;}}
     
     // Start is called before the first frame update
     void Start()
@@ -33,6 +36,15 @@ public class PlayerBehavior : MonoBehaviour
         LevelControllerBehavior.SetYDependentOrderInLayer(gameObject);
     }
 
+    public void RefreshPlayerStatsAndHealth()
+    {
+        _maxHp = originalMaxHp;
+        _speedStat = 100f;
+        _attack = 100f;
+        _critRate = 0f;
+        RefreshHealth();
+    }
+
     public void RefreshHealth()
     {
         _hp = maxHp;
@@ -54,8 +66,8 @@ public class PlayerBehavior : MonoBehaviour
     public void Walk(int movementMultiplierX, int movementMultiplierY)
     {
         float diagMultiplier = (movementMultiplierX != 0f && movementMultiplierY != 0f) ? Mathf.Sqrt(2) / 2 : 1f;
-        transform.position = new Vector3(transform.position.x + diagMultiplier * movementMultiplierX * speed * Time.deltaTime,
-                                         transform.position.y + diagMultiplier * movementMultiplierY * speed * Time.deltaTime,
+        transform.position = new Vector3(transform.position.x + diagMultiplier * movementMultiplierX * baseSpeed * speedStat / 100 * Time.deltaTime,
+                                         transform.position.y + diagMultiplier * movementMultiplierY * baseSpeed * speedStat / 100 * Time.deltaTime,
                                          transform.position.z);
     }
 

@@ -43,6 +43,18 @@ public abstract class Weapon : MonoBehaviour
     public bool offCooldown() { return _cooldownTimer >= _cooldown; } 
 
     protected abstract void Fire_Weapon(Vector3 targetLocation);
+
+    public static void DamageEnemy(float baseDamage, float baseCritRate, EnemyBehavior enemyBehavior)
+    {
+        bool isCrit = (UnityEngine.Random.Range(0f,1f) < baseCritRate + LevelControllerBehavior.levelController.playerBehavior.critRate / 100f);
+        float damageTaken = baseDamage * LevelControllerBehavior.levelController.playerBehavior.attack / 100f;
+        if (isCrit)
+        {
+            damageTaken *= Weapon.CRIT_MULTIPLIER;
+        }
+        enemyBehavior.DamageEnemy(damageTaken);
+    }
+
 }
 
 /*
