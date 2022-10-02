@@ -14,12 +14,12 @@ public class LevelControllerBehavior : MonoBehaviour
     public GameObject player;
     private PlayerBehavior _playerBehavior; public PlayerBehavior playerBehavior {get {return _playerBehavior;}}
     public bool _levelActive; 
-    public float attackCd;
 
     // settings 
     private float musicVol, sfxVol, masterVol, fontSize;
 
-    private float startTime;
+    private float _gameDuration, _gameDurationNextSwap;
+    public float dimensionlessClampedTimeTilNextSwap {get {Debug.Log(_gameDurationNextSwap);return Mathf.Clamp((10f -_gameDurationNextSwap + _gameDuration) / 10f, 0f, 1f);}}
     void Awake()
     {
         if (LevelControllerBehavior.levelController) {
@@ -30,8 +30,8 @@ public class LevelControllerBehavior : MonoBehaviour
         if (player == null) player = GameObject.Find("Player");
         _playerBehavior = player.GetComponent<PlayerBehavior>();
         _levelActive = false;
-        startTime = -1;
-        
+        _gameDuration = 0f;
+        _gameDurationNextSwap = 10f;   
     }
 
     // Start is called before the first frame update
@@ -43,10 +43,8 @@ public class LevelControllerBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        attackCd = Weapon.WeaponDict[Weapon.currentWeapon].getCooldown();
 
         // Input
-
         //  Pause
         if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P))
         {
@@ -61,25 +59,37 @@ public class LevelControllerBehavior : MonoBehaviour
             }
         }
 
-        //  Movement
-        //   Up/Down
-        int movementMultiplierY = 0; // 0 means no movement, 1 means specified direction (up), -1 means opposite (down)
-        if (Input.GetKey(KeyCode.W) != Input.GetKey(KeyCode.S))
+        if (_levelActive)
         {
-            movementMultiplierY = Input.GetKey(KeyCode.W) ? 1 : -1;
-        }
-        //   Left/Right
-        int movementMultiplierX = 0; // 0 means no movement, 1 means specified direction (up), -1 means opposite (down)
-        if (Input.GetKey(KeyCode.D) != Input.GetKey(KeyCode.A))
-        {
-            movementMultiplierX = Input.GetKey(KeyCode.D) ? 1 : -1;
-        }
-        _playerBehavior.Walk(movementMultiplierX, movementMultiplierY);
+            // Update timer
+            _gameDuration += Time.deltaTime;
+            if (_gameDuration >= _gameDurationNextSwap)
+            {
+                // Swap time!
+                TenSecondSwap();
+                _gameDurationNextSwap += 10f;
+            }
 
-        // Weapon fire: 0 is L, 1 is R
-        if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1)) // L targets nearest enemy, R targets mouse location, default to nearest
-        {
-            Weapon.Fire(Camera.main.ScreenToWorldPoint(Input.mousePosition)); // check doc
+            //  Movement
+            //   Up/Down
+            int movementMultiplierY = 0; // 0 means no movement, 1 means specified direction (up), -1 means opposite (down)
+            if (Input.GetKey(KeyCode.W) != Input.GetKey(KeyCode.S))
+            {
+                movementMultiplierY = Input.GetKey(KeyCode.W) ? 1 : -1;
+            }
+            //   Left/Right
+            int movementMultiplierX = 0; // 0 means no movement, 1 means specified direction (up), -1 means opposite (down)
+            if (Input.GetKey(KeyCode.D) != Input.GetKey(KeyCode.A))
+            {
+                movementMultiplierX = Input.GetKey(KeyCode.D) ? 1 : -1;
+            }
+            _playerBehavior.Walk(movementMultiplierX, movementMultiplierY);
+
+            // Weapon fire: 0 is L, 1 is R
+            if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1)) // L targets nearest enemy, R targets mouse location, default to nearest
+            {
+                Weapon.Fire(Camera.main.ScreenToWorldPoint(Input.mousePosition)); // check doc
+            }
         }
     }
 
@@ -89,7 +99,8 @@ public class LevelControllerBehavior : MonoBehaviour
         player.transform.position = new Vector3(0f, 0f, 0f);
         _playerBehavior.RefreshHealth();
         _levelActive = true;
-        startTime = 0f;
+        _gameDuration = 0f;
+        _gameDurationNextSwap = 10f;
         Weapon.currentWeapon = Weapon.WeaponType.SWORD;
     }
 
@@ -97,6 +108,14 @@ public class LevelControllerBehavior : MonoBehaviour
     public static void SetYDependentOrderInLayer(GameObject callingObject)
     {
         SpriteRenderer renderer = callingObject.GetComponent<SpriteRenderer>();
-        //renderer.bounds.
+        renderer.sortingOrder = Mathf.FloorToInt(renderer.bounds.min.y * -1000f);
+        // for now looks at "feet" which is kind of jank for things small and "airborne" like stars. Might change in future
+    }
+
+    // Called every 10 seconds and handles every event at that time
+    // Don't worry about updating next swap time, already handled in Update() above
+    private void TenSecondSwap()
+    {
+        
     }
 }

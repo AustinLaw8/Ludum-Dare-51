@@ -63,6 +63,8 @@ public abstract class EnemyBehavior : MonoBehaviour
 
         if (cooldown > 0)
             cooldown -= Time.deltaTime;
+
+        LevelControllerBehavior.SetYDependentOrderInLayer(gameObject);
     }
 
     protected void Setup(float health, float sp, float atk, float rng, float cd) // default curr health to max health

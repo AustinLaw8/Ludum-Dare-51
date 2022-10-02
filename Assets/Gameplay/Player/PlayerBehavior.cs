@@ -30,6 +30,7 @@ public class PlayerBehavior : MonoBehaviour
         
 
         _mainCamera.transform.position = new Vector3(transform.position.x, transform.position.y, _mainCamera.transform.position.z);
+        LevelControllerBehavior.SetYDependentOrderInLayer(gameObject);
     }
 
     public void RefreshHealth()
