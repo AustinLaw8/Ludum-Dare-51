@@ -14,6 +14,7 @@ public class PlayerBehavior : MonoBehaviour
     private float _critRate; public float critRate {get {return _critRate;}}
     private float _speedStat; public float speedStat {get {return _speedStat;}}
     
+    public bool facingLeft;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,12 +26,11 @@ public class PlayerBehavior : MonoBehaviour
     void Update()
     {
         // if the player sprite isn't looking towards the mouse,
-        if (Mathf.Sign(Camera.main.ScreenToWorldPoint(Input.mousePosition).x - transform.position.x) != Mathf.Sign(transform.localScale.x))
+        facingLeft = Input.mousePosition.x < Camera.main.pixelWidth / 2;
+        if (facingLeft && this.transform.localScale.x > 0 || !facingLeft && this.transform.localScale.x < 0)
         {
-            transform.localScale = new Vector3(transform.localScale.x * -1f, transform.localScale.y, transform.localScale.z);
-            _healthBarBehavior.FlipToMaintainBillboard();
+            flip();
         }
-        
 
         _mainCamera.transform.position = new Vector3(transform.position.x, transform.position.y, _mainCamera.transform.position.z);
         LevelControllerBehavior.SetYDependentOrderInLayer(gameObject);
@@ -71,5 +71,8 @@ public class PlayerBehavior : MonoBehaviour
                                          transform.position.z);
     }
 
-    
+    private void flip() {
+        transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
+        _healthBarBehavior.FlipToMaintainBillboard();
+    }
 }

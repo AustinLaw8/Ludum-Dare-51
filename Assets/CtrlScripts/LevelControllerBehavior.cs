@@ -10,8 +10,8 @@ public class LevelControllerBehavior : MonoBehaviour
     //  I know there's a class that handles this but I forgot what it's called, this should suffice for now
     //  This will also allow all other classes to access common data that is stored in the LevelControllerBehavior
     public static LevelControllerBehavior levelController;
-    private static Vector3 PLAYER_CENTER = new Vector3(.1f,-.1f,0);
-    private static float PLAYER_RADIUS = .4f;
+    public static Vector3 PLAYER_CENTER = new Vector3(.1f,-.1f,0);
+    public static float PLAYER_RADIUS = .5f;
 
     public GameObject player;
     private PlayerBehavior _playerBehavior; public PlayerBehavior playerBehavior {get {return _playerBehavior;}}

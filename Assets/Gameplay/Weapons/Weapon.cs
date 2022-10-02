@@ -17,7 +17,7 @@ public abstract class Weapon : MonoBehaviour
     protected float _range;
     
     private float _cooldownTimer;
-    public float getCooldownProportionCompleted {get { return Mathf.Max(_cooldownTimer / _cooldown, 1); } }
+    public float getCooldownProportionCompleted {get { return Mathf.Min(_cooldownTimer / _cooldown, 1); } }
 
     protected Animator anim;
 
@@ -30,6 +30,10 @@ public abstract class Weapon : MonoBehaviour
     void Update()
     {
         _cooldownTimer += Time.deltaTime;
+        if (offCooldown()) 
+        {
+            reset();
+        }
     }
 
     public void Fire(Vector3 targetLocation)
@@ -37,6 +41,7 @@ public abstract class Weapon : MonoBehaviour
         if (offCooldown())
         {
             Fire_Weapon(targetLocation);
+            _cooldownTimer = 0f;
         }
     }
 
@@ -55,6 +60,7 @@ public abstract class Weapon : MonoBehaviour
         enemyBehavior.DamageEnemy(damageTaken);
     }
 
+    protected virtual void reset() {}
 }
 
 /*
