@@ -40,7 +40,7 @@ public class HealthBarBehavior : MonoBehaviour
         {
             // Update inner health bar fill ratio
             healthBarInner.fillAmount = Mathf.Clamp(_behaviorPlayer.hp / _behaviorPlayer.maxHp, 0f, 1f);
-            coolDownBarInner.fillAmount = Weapon.currentWeaponObject.getCooldownProportionCompleted;
+            coolDownBarInner.fillAmount = LevelControllerBehavior.levelController.currentWeapon.getCooldownProportionCompleted;
         }
     }
 

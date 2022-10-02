@@ -10,10 +10,17 @@ public class LevelControllerBehavior : MonoBehaviour
     //  I know there's a class that handles this but I forgot what it's called, this should suffice for now
     //  This will also allow all other classes to access common data that is stored in the LevelControllerBehavior
     public static LevelControllerBehavior levelController;
+    private static Vector3 PLAYER_CENTER = new Vector3(.1f,-.1f,0);
+    private static float PLAYER_RADIUS = .4f;
 
     public GameObject player;
     private PlayerBehavior _playerBehavior; public PlayerBehavior playerBehavior {get {return _playerBehavior;}}
     public bool _levelActive; 
+    public Weapon currentWeapon;
+
+    /* Weapon prefabs */
+    public GameObject SWORD_PREFAB;
+    public Dictionary<Weapon.WeaponType, GameObject> weaponPrefabs;
 
     // settings 
     private float musicVol, sfxVol, masterVol, fontSize;
@@ -32,6 +39,8 @@ public class LevelControllerBehavior : MonoBehaviour
         _levelActive = false;
         _gameDuration = 0f;
         _gameDurationNextSwap = 10f;   
+        weaponPrefabs = new Dictionary<Weapon.WeaponType, GameObject>() {
+                { Weapon.WeaponType.SWORD, SWORD_PREFAB }};
     }
 
     // Start is called before the first frame update
@@ -43,7 +52,6 @@ public class LevelControllerBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         // Input
         //  Pause
         if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P))
@@ -88,7 +96,7 @@ public class LevelControllerBehavior : MonoBehaviour
             // Weapon fire: 0 is L, 1 is R
             if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1)) // L targets nearest enemy, R targets mouse location, default to nearest
             {
-                Weapon.Fire(Camera.main.ScreenToWorldPoint(Input.mousePosition)); // check doc
+                currentWeapon.Fire(Camera.main.ScreenToWorldPoint(Input.mousePosition)); // check doc
             }
         }
     }
@@ -102,6 +110,12 @@ public class LevelControllerBehavior : MonoBehaviour
         _gameDuration = 0f;
         _gameDurationNextSwap = 10f;
         Weapon.currentWeapon = Weapon.WeaponType.SWORD;
+        currentWeapon = GameObject.Instantiate(
+                weaponPrefabs[Weapon.WeaponType.SWORD],
+                weaponPrefabs[Weapon.WeaponType.SWORD].GetComponent<Weapon>().offset + new Vector3(PLAYER_CENTER.x + PLAYER_RADIUS, PLAYER_CENTER.y, 0f),
+                Quaternion.identity,
+                _playerBehavior.transform)
+                .GetComponent<Weapon>();
     }
 
     // Called by any gameObject with a SpriteRenderer in their Update to set their OrderInLayer to a value dependent on the lowest point of their y-position
