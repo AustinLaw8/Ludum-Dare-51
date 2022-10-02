@@ -68,19 +68,20 @@ public class Sword : Weapon
 
     protected override void Fire_WeaponSpecific(Vector3 targetLocation)
     {
-        Vector3 playerPosition = LevelControllerBehavior.levelController.playerBehavior.transform.position;
-        Vector3 targetDirection = (targetLocation - playerPosition).normalized;
-        Vector3 counterclockwiseBound = EnemyBehavior.RotateVector(targetDirection, -_angle / 2);
-        Vector3 clockwiseBound = EnemyBehavior.RotateVector(targetDirection, _angle / 2);
-        //Debug.Log($"{playerPosition}, {targetDirection}, {counterclockwiseBound}, {clockwiseBound}");
-        Collider2D[] hits = Physics2D.OverlapCircleAll(playerPosition, _range);
-        foreach (var enemy in hits) {
-            if (inSector(playerPosition, counterclockwiseBound, clockwiseBound, enemy.transform.position)) {
-                float baseDamage = _baseAttack * LevelControllerBehavior.levelController.playerBehavior.attack;
-                enemy.gameObject.GetComponent<EnemyBehavior>().DamageEnemy(baseDamage * Random.value <= _baseCritRate ? CRIT_MULTIPLIER : 1);
-                Debug.Log("Enemy hit with Sword");
-            }
-        }
+        Debug.Log("Sword attack");
+    //     Vector3 playerPosition = LevelControllerBehavior.levelController.playerBehavior.transform.position;
+    //     Vector3 targetDirection = (targetLocation - playerPosition).normalized;
+    //     Vector3 counterclockwiseBound = EnemyBehavior.RotateVector(targetDirection, -_angle / 2);
+    //     Vector3 clockwiseBound = EnemyBehavior.RotateVector(targetDirection, _angle / 2);
+    //     Debug.Log($"{playerPosition}, {targetDirection}, {counterclockwiseBound}, {clockwiseBound}");
+    //     Collider2D[] hits = Physics2D.OverlapCircleAll(playerPosition, _range);
+    //     foreach (var enemy in hits) {
+    //         if (inSector(playerPosition, counterclockwiseBound, clockwiseBound, enemy.transform.position)) {
+    //             float baseDamage = _baseAttack * LevelControllerBehavior.levelController.playerBehavior.attack;
+    //             // enemy.gameObject.GetComponent<EnemyBehavior>().DamageEnemy(baseDamage * Random.value <= _baseCritRate ? CRIT_MULTIPLIER : 1);
+    //             Debug.Log("Enemy hit with Sword");
+    //         }
+    //     }
     }
 
     private bool inSector(Vector3 playerPosition, Vector3 counterclockwiseBound, Vector3 clockwiseBound, Vector3 point)

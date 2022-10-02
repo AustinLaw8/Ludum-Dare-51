@@ -26,32 +26,15 @@ public abstract class EnemyBehavior : MonoBehaviour
         transform.position = new Vector3(x, y, 0);
     }
 
-    // helper to normalize to unit vector CHECK CODE
-    private Vector3 unit(Vector3 vect)
-    {
-        float mag = Mathf.Sqrt(Mathf.Pow(vect.x, 2) + Mathf.Pow(vect.y, 2) + Mathf.Pow(vect.z, 2));
-        return vect/mag;
-    }
-
-
-    // CHECK CODE! move a set distance towards the player
     public void move2Player()
     {
-        Vector3 pPos = _playerBehavior.transform.position;
-        Vector3 pos = transform.position;
-        float px = pPos.x; // player x, y
-        float py = pPos.y;
-        float x = pos.x; // enemy x, y
-        float y = pos.y;
-        float z = pos.z;
-        float k = speed * Time.deltaTime;
-        float dx = unit(pPos - pos).x; //Mathf.Atan2(y - py, x - px); // angle between enemy and player in Rad
-        float dy = unit(pPos - pos).y;
+        // Gets unit vector in direction of player, then multiplies by speed * time to get deltaPosition to add
+        transform.position += (_playerBehavior.transform.position - this.transform.position).normalized * speed * Time.deltaTime;
+    }
 
-        //Debug.Log(dx);
-        //Debug.Log(dy);
-
-        transform.position = new Vector3(x + k*dx, y + k*dy, z); //Mathf.Atan2(destinationPos.y - originPos.y, destinationPos.x - originPos.x) * 180f / Mathf.PI;
+    public void facePlayer()
+    {
+        gameObject.GetComponent<SpriteRenderer>().flipX = _playerBehavior.transform.position.x - this.transform.position.x < 0;
     }
 
     public void DamageEnemy(float amt)
@@ -75,7 +58,7 @@ public abstract class EnemyBehavior : MonoBehaviour
             move2Player(); // set default x,y multipliers
         else
             Attack();
-
+        facePlayer();
         // update cooldown if necessary
 
         if (cooldown > 0)

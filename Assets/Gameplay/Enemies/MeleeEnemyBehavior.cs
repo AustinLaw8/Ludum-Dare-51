@@ -10,7 +10,6 @@ public class MeleeEnemyBehavior : EnemyBehavior
         if (cooldown <= 0) // attack ready
         {
             _playerBehavior.DamagePlayer(attack);
-            Debug.Log(_playerBehavior.hp);
             cooldown = maxCD; // reset CD
         }   
     }
