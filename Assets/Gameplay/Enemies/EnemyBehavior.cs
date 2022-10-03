@@ -43,6 +43,7 @@ public abstract class EnemyBehavior : MonoBehaviour
     {
         hp = Mathf.Min(maxHp, hp - amt); // overheal boundary case
         if (hp <= 0) {
+            playerScore++;
             Destroy(this.gameObject);
         }
         Debug.Log("hit");

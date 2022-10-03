@@ -37,6 +37,8 @@ public class LevelControllerBehavior : MonoBehaviour
     public float dimensionlessClampedTimeTilNextSwap {get {return Mathf.Clamp((10f -_gameDurationNextSwap + _gameDuration) / 10f, 0f, 1f);}}
     public float swapCount {get {return Mathf.Floor(_gameDuration / 10f);}}
     
+    public float playerScore;
+
     void Awake()
     {
         if (LevelControllerBehavior.levelController) {
@@ -152,6 +154,7 @@ public class LevelControllerBehavior : MonoBehaviour
     // called when game starts. Does setup/refresh
     public void LevelStart()
     {
+        playerScore = 0;
         /* Swap musics */
         menuThemeSource.Stop();
         menuThemeSource.time = 0;
