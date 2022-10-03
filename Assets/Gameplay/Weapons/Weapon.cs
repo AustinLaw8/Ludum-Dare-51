@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class Weapon : MonoBehaviour
 {
-    public static float CRIT_MULTIPLIER = 1.75f;
+    public static float CRIT_MULTIPLIER = 2f;
     public static float WEAPON_MAX_RANGE = 50f;
 
     public enum WeaponType {SWORD, STAR, DYNAMITE, FAN};
