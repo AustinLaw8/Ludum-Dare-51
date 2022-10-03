@@ -120,7 +120,7 @@ public class UiCanvasBehavior : MonoBehaviour
 
     public void enterDeathScreen() // called elsewhere when Phemie Dies
     {
-        scoreText.Text = "You died! Score: " + playerScore.ToString();
+        scoreText.text = "You died! Score: " + LevelControllerBehavior.levelController.playerScore.ToString();
         LevelControllerBehavior.levelController._levelActive = false;
         SetExclusiveBoxActive(boxDeathScreen);
     }
