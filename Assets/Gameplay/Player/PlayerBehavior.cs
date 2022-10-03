@@ -13,6 +13,7 @@ public class PlayerBehavior : MonoBehaviour
     private float _attack; public float attack {get {return _attack;}}
     private float _critRate; public float critRate {get {return _critRate;}}
     private float _speedStat; public float speedStat {get {return _speedStat;}}
+    [SerializeField] private GameObject boundaryTopRight, boundaryBottomLeft;
     
     public bool facingLeft;
     // Start is called before the first frame update
@@ -65,7 +66,17 @@ public class PlayerBehavior : MonoBehaviour
     // Input is read by LevelControllerBehavior, which calls this function
     public void Walk(int movementMultiplierX, int movementMultiplierY)
     {
+        // ensures player stays within map borders
+        float rBound = 10;
+        float lBound = 10;
+        float upperBound = 10;
+        float lowerBound = 10;
+
         float diagMultiplier = (movementMultiplierX != 0f && movementMultiplierY != 0f) ? Mathf.Sqrt(2) / 2 : 1f;
+
+        if (transform.position.x > rBound)
+        if (transform.position.y > upperBound)
+        
         transform.position = new Vector3(transform.position.x + diagMultiplier * movementMultiplierX * baseSpeed * speedStat / 100 * Time.deltaTime,
                                          transform.position.y + diagMultiplier * movementMultiplierY * baseSpeed * speedStat / 100 * Time.deltaTime,
                                          transform.position.z);
