@@ -172,7 +172,7 @@ public class LevelControllerBehavior : MonoBehaviour
         _gameOver = false;
         _gameDuration = 0f;
         _gameDurationNextSwap = 10f;
-        ChangeWeapon(Weapon.WeaponType.DYNAMITE);
+        ChangeWeapon(Weapon.WeaponType.SWORD);
         _swapOptionsBehavior.SelectOption(SwapOptionsBehavior.SelectionOption.LEFT);
         TenSecondSwap(false);
     }
