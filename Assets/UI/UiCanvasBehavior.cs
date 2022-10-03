@@ -20,14 +20,18 @@ public class UiCanvasBehavior : MonoBehaviour
     public float masterVolumeValue;
     private bool _settingsNotPause = false; // denotes whether boxSettings was set active as settings menu or as pause menu
     public bool paused {get {return boxSettings.activeInHierarchy && !_settingsNotPause;}}
+
     public void Start()
     {
         uiCanvasBehavior = this;
         _exclusiveBoxes = new GameObject[] {boxMainMenu, boxSettings, boxCredits, boxGameUI};
         SetExclusiveBoxActive(boxMainMenu);
-        SFXvolumeValue = 0.5f;
-        musicVolumeValue = 0.5f;
-        masterVolumeValue = 0.5f;
+        SFXvolumeValue = 1f;
+        sliderSFXvolume.value = 1f;
+        musicVolumeValue = 1f;
+        sliderMusicVolume.value = 1f;
+        masterVolumeValue = 1f;
+        sliderMasterVolume.value = 1f;
     }
 
     public void Update()
@@ -38,6 +42,8 @@ public class UiCanvasBehavior : MonoBehaviour
             musicVolumeValue = sliderMusicVolume.value;
             masterVolumeValue = sliderMasterVolume.value;
         }
+        LevelControllerBehavior.levelController.menuThemeSource.volume = sliderMusicVolume.value * masterVolumeValue;
+        LevelControllerBehavior.levelController.battleThemeSource.volume = sliderMusicVolume.value * masterVolumeValue;
     }
 
     public void SetExclusiveBoxActive(GameObject box)
@@ -53,28 +59,34 @@ public class UiCanvasBehavior : MonoBehaviour
         SetExclusiveBoxActive(boxGameUI);
         LevelControllerBehavior.levelController.LevelStart();
     }
+
     public void ButtonSettings()
     {
         _settingsNotPause = true;
         SetExclusiveBoxActive(boxSettings);
         buttonPauseQuit.SetActive(false);
     }
+
     public void ButtonCredits()
     {
         SetExclusiveBoxActive(boxCredits);
     }
+
     public void ButtonQuit()
     {
         Application.Quit();
     }
+
     public void ButtonBack()
     {
         SetExclusiveBoxActive(boxMainMenu);
     }
+
     public void ButtonPause()
     {
         pause();
     }
+
     public void ButtonSettingsBack() // handles both settings menu and pause menu as they are the same box
     {
         if (_settingsNotPause)
@@ -87,11 +99,14 @@ public class UiCanvasBehavior : MonoBehaviour
             LevelControllerBehavior.levelController._levelActive = true;
         }
     }
+
     public void ButtonPauseQuit()
     {
         LevelControllerBehavior.levelController._levelActive = false;
+        LevelControllerBehavior.levelController.resetAudio();
         SetExclusiveBoxActive(boxMainMenu);
     }
+
     public void pause()
     {
         LevelControllerBehavior.levelController._levelActive = false;
@@ -99,5 +114,4 @@ public class UiCanvasBehavior : MonoBehaviour
         SetExclusiveBoxActive(boxSettings);
         buttonPauseQuit.SetActive(true);
     }
-
 }

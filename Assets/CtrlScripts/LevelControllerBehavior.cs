@@ -28,11 +28,15 @@ public class LevelControllerBehavior : MonoBehaviour
     public Dictionary<Weapon.WeaponType, GameObject> weaponPrefabs;
 
     // settings 
+    public AudioSource menuThemeSource;
+    public AudioSource battleThemeSource;
+
     private float musicVol, sfxVol, masterVol, fontSize;
 
     private float _gameDuration, _gameDurationNextSwap;
     public float dimensionlessClampedTimeTilNextSwap {get {return Mathf.Clamp((10f -_gameDurationNextSwap + _gameDuration) / 10f, 0f, 1f);}}
     public float swapCount {get {return Mathf.Floor(_gameDuration / 10f);}}
+    
     void Awake()
     {
         if (LevelControllerBehavior.levelController) {
@@ -52,14 +56,14 @@ public class LevelControllerBehavior : MonoBehaviour
                 { Weapon.WeaponType.DYNAMITE, DYNAMITE_PREFAB},
                 { Weapon.WeaponType.FAN, FAN_PREFAB}
                 };
-                
-                
     }
 
     // Start is called before the first frame update
     void Start()
     {
         _levelActive = false;
+        menuThemeSource = Camera.main.transform.GetChild(0).gameObject.GetComponent<AudioSource>();
+        battleThemeSource = Camera.main.transform.GetChild(1).gameObject.GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -122,7 +126,14 @@ public class LevelControllerBehavior : MonoBehaviour
 
     // called when game starts. Does setup/refresh
     public void LevelStart()
-    {
+    {   
+        /* Swap musics */
+        menuThemeSource.Stop();
+        menuThemeSource.time = 0;
+        battleThemeSource.Play();
+        battleThemeSource = Camera.main.transform.GetChild(2).GetComponent<AudioSource>();
+        battleThemeSource.PlayDelayed(3.5f);
+
         player.transform.position = new Vector3(0f, 0f, 0f);
         _playerBehavior.RefreshPlayerStatsAndHealth();
         _levelActive = true;
@@ -138,6 +149,14 @@ public class LevelControllerBehavior : MonoBehaviour
         SpawnEnemyWave();
     }
 
+    public void resetAudio()
+    {
+        battleThemeSource.Stop();
+        battleThemeSource.time = 0;
+        battleThemeSource = Camera.main.transform.GetChild(1).GetComponent<AudioSource>();
+        menuThemeSource.Play();
+    }
+    
     // Called by any gameObject with a SpriteRenderer in their Update to set their OrderInLayer to a value dependent on the lowest point of their y-position
     public static void SetYDependentOrderInLayer(GameObject callingObject)
     {
