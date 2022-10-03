@@ -128,5 +128,6 @@ public class UiCanvasBehavior : MonoBehaviour
     public void buttonDeathScreenExitToMenu()
     {   
         SetExclusiveBoxActive(boxMainMenu);
+        resetAudio(); // set to main menu music
     }
 }
