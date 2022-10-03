@@ -164,19 +164,22 @@ public class LevelControllerBehavior : MonoBehaviour
         _levelActive = true;
         _gameDuration = 0f;
         _gameDurationNextSwap = 10f;
-        currentWeapon = ChangeWeapon(Weapon.WeaponType.STAR);
+        ChangeWeapon(Weapon.WeaponType.STAR);
         _swapOptionsBehavior.SelectOption(SwapOptionsBehavior.SelectionOption.LEFT);
         TenSecondSwap(false);
     }
 
-    private Weapon ChangeWeapon(Weapon.WeaponType newWeapon)
+    private void ChangeWeapon(Weapon.WeaponType newWeapon)
     {
-        return GameObject.Instantiate(
+        if (currentWeapon)
+        {
+            Destroy(currentWeapon.gameObject);
+        }
+        currentWeapon = GameObject.Instantiate(
                 weaponPrefabs[newWeapon],
-                new Vector3(PLAYER_CENTER.x + PLAYER_RADIUS * (playerBehavior.facingLeft ? -1f : 1f), PLAYER_CENTER.y, 0f),
-                Quaternion.identity,
-                _playerBehavior.transform)
+                _playerBehavior.transform, false)
                 .GetComponent<Weapon>();
+        currentWeapon.gameObject.transform.localPosition = new Vector3(PLAYER_CENTER.x + PLAYER_RADIUS, PLAYER_CENTER.y, 0f);
     }
 
     public void resetAudio()
