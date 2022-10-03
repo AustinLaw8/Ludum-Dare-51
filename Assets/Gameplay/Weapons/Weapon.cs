@@ -8,6 +8,7 @@ public abstract class Weapon : MonoBehaviour
     public static float WEAPON_MAX_RANGE = 50f;
 
     public enum WeaponType {SWORD, STAR, DYNAMITE, FAN};
+    public static WeaponType[] weaponList = new WeaponType[4] {WeaponType.SWORD, WeaponType.STAR, WeaponType.DYNAMITE, WeaponType.FAN};
 
     // Weapon stats
     protected float _cooldown;

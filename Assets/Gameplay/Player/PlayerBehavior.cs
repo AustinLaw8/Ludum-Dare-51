@@ -65,6 +65,7 @@ public class PlayerBehavior : MonoBehaviour
     // Input is read by LevelControllerBehavior, which calls this function
     public void Walk(int movementMultiplierX, int movementMultiplierY)
     {
+        // check 
         float diagMultiplier = (movementMultiplierX != 0f && movementMultiplierY != 0f) ? Mathf.Sqrt(2) / 2 : 1f;
         transform.position = new Vector3(transform.position.x + diagMultiplier * movementMultiplierX * baseSpeed * speedStat / 100 * Time.deltaTime,
                                          transform.position.y + diagMultiplier * movementMultiplierY * baseSpeed * speedStat / 100 * Time.deltaTime,
