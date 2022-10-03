@@ -46,6 +46,7 @@ public class UiCanvasBehavior : MonoBehaviour
         LevelControllerBehavior.levelController.menuThemeSource.volume = musicVolumeValue * masterVolumeValue;
         LevelControllerBehavior.levelController.battleThemeSource.volume = musicVolumeValue * masterVolumeValue;
         LevelControllerBehavior.levelController.sfxSource.volume = SFXvolumeValue * masterVolumeValue;
+        LevelControllerBehavior.levelController.playerBehavior.gameObject.GetComponent<AudioSource>().volume = SFXvolumeValue * masterVolumeValue;
     }
 
     public void SetExclusiveBoxActive(GameObject box)
