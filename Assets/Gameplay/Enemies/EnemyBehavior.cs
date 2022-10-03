@@ -45,7 +45,8 @@ public abstract class EnemyBehavior : MonoBehaviour
         if (hp <= 0) {
             Destroy(this.gameObject);
         }
-        // StartCoroutine(flashWhite());
+        Debug.Log("hit");
+        StartCoroutine(flashWhite());
     }
 
     public abstract void Attack();
@@ -90,9 +91,25 @@ public abstract class EnemyBehavior : MonoBehaviour
         cooldown = 0; // current cooldown
     }
 
-    // private IEnumerator flashWhite() {
-    //     yield return new WaitForEndOfFrame();
-    // }
+    private IEnumerator flashWhite() {
+        float t = anim.GetCurrentAnimatorStateInfo(0).normalizedTime;
+        float animTime = anim.GetCurrentAnimatorClipInfo(0)[0].clip.length;
+        if (anim.GetBool("attacking")) {
+            anim.Play("EnemyAttackWhite", -1, t % animTime);
+        } else {
+            anim.Play("EnemyFloatWhite", -1, t % animTime);
+        }
+
+        yield return new WaitForSeconds(.1f);
+
+        t = anim.GetCurrentAnimatorStateInfo(0).normalizedTime;
+        animTime = anim.GetCurrentAnimatorClipInfo(0)[0].clip.length;
+        if (anim.GetBool("attacking")) {
+            anim.Play("EnemyAttack", -1, t % animTime);
+        } else {
+            anim.Play("MeleeEnemyMove", -1, t % animTime);
+        }
+    }
 
     // ============================== COMMON METHODS =====================================
     public static Vector2 Vec3ToVec2(Vector3 vec)
