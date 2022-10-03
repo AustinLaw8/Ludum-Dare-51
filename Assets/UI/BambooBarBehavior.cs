@@ -1,18 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BambooBarBehavior : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private Image _bambooFillImage;
+    private Slider _thisSlider;
+
+    void Awake()
     {
-        
+        _thisSlider = GetComponent<Slider>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void sliderChanged()
     {
-        
+        _bambooFillImage.fillAmount = _thisSlider.value;
     }
 }
