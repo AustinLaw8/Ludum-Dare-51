@@ -66,6 +66,7 @@ public class PlayerBehavior : MonoBehaviour
             _uiCanvas.GetComponent<UiCanvasBehavior>().enterDeathScreen();
         }
         this.gameObject.GetComponent<AudioSource>().Play();
+        StartCoroutine(flashRed());
     }
 
     // returns given vector's distance to player
@@ -91,5 +92,13 @@ public class PlayerBehavior : MonoBehaviour
     private void flip() {
         transform.localScale = new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
         _healthBarBehavior.FlipToMaintainBillboard();
+    }
+
+    private IEnumerator flashRed()
+    {
+        SpriteRenderer renderer = this.gameObject.GetComponent<SpriteRenderer>();
+        renderer.color = Color.red;
+        yield return new WaitForSeconds(.1f);
+        renderer.color = Color.white;
     }
 }
