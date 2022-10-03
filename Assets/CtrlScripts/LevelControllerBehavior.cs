@@ -190,6 +190,7 @@ public class LevelControllerBehavior : MonoBehaviour
         currentWeapon.gameObject.transform.localPosition = new Vector3(PLAYER_CENTER.x + PLAYER_RADIUS, PLAYER_CENTER.y, 0f);
     }
 
+    // swap audio to main menu music
     public void resetAudio()
     {
         battleThemeSource.Stop();
