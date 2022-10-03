@@ -126,7 +126,7 @@ public class LevelControllerBehavior : MonoBehaviour
 
     // called when game starts. Does setup/refresh
     public void LevelStart()
-    {   
+    {
         /* Swap musics */
         menuThemeSource.Stop();
         menuThemeSource.time = 0;
@@ -146,7 +146,7 @@ public class LevelControllerBehavior : MonoBehaviour
                 _playerBehavior.transform)
                 .GetComponent<Weapon>();
         _swapOptionsBehavior.SelectOption(SwapOptionsBehavior.SelectionOption.LEFT);
-        SpawnEnemyWave();
+        TenSecondSwap();
     }
 
     public void resetAudio()
@@ -156,7 +156,7 @@ public class LevelControllerBehavior : MonoBehaviour
         battleThemeSource = Camera.main.transform.GetChild(1).GetComponent<AudioSource>();
         menuThemeSource.Play();
     }
-    
+
     // Called by any gameObject with a SpriteRenderer in their Update to set their OrderInLayer to a value dependent on the lowest point of their y-position
     public static void SetYDependentOrderInLayer(GameObject callingObject)
     {
@@ -167,9 +167,12 @@ public class LevelControllerBehavior : MonoBehaviour
 
     // Called every 10 seconds and handles every event at that time
     // Don't worry about updating next swap time, already handled in Update() above
-    private void TenSecondSwap()
+    private void TenSecondSwap(bool claimSelectedOptions = true)
     {
         SpawnEnemyWave();
+        if (claimSelectedOptions)
+            ClaimSelectedOptions();
+        SetNextSwapOptions();
     }
 
     private void SpawnEnemyWave()
@@ -190,5 +193,46 @@ public class LevelControllerBehavior : MonoBehaviour
     private Vector3 Get2DUnitFromRadians(float radians)
     {
         return new Vector3(Mathf.Cos(radians), Mathf.Sin(radians), 0f);
+    }
+
+    private void SetNextSwapOptions()
+    {
+        // Random weapons
+        int weaponCount = Weapon.weaponList.GetLength(0);
+        NextSwapData.weaponL = Weapon.weaponList[Random.Range(0, weaponCount)];
+        NextSwapData.weaponR = Weapon.weaponList[Random.Range(0, weaponCount)];
+        while (NextSwapData.weaponL == NextSwapData.weaponR)
+        {
+            NextSwapData.weaponR = Weapon.weaponList[Random.Range(0, weaponCount)];
+        }
+        
+        // Random Stat choice
+        int boostableStatCount = NextSwapData.BoostableStatList.GetLength(0);
+        NextSwapData.statTypeL = NextSwapData.BoostableStatList[Random.Range(0, boostableStatCount)];
+        NextSwapData.statTypeR = NextSwapData.BoostableStatList[Random.Range(0, boostableStatCount)];
+        while (NextSwapData.statTypeL == NextSwapData.statTypeR)
+        {
+            NextSwapData.statTypeR = NextSwapData.BoostableStatList[Random.Range(0, boostableStatCount)];
+        }
+
+        // Random stat magnitudes
+        NextSwapData.boostMagnituedeL = Random.Range(2, 6);
+        NextSwapData.boostMagnituedeL = Random.Range(2, 6);
+    }
+
+    private void ClaimSelectedOptions()
+    {
+        //_swapOptionsBehavior.
+    }
+
+    
+    public static class NextSwapData
+    {
+        public enum BoostableStat {ATTACK, HP, SPEED, CRITRATE};
+        public static BoostableStat[] BoostableStatList = new BoostableStat[4] {BoostableStat.ATTACK, BoostableStat.HP, BoostableStat.SPEED, BoostableStat.CRITRATE};
+
+        public static Weapon.WeaponType weaponL, weaponR;
+        public static BoostableStat statTypeL, statTypeR;
+        public static int boostMagnituedeL, boostMagnitudeR;
     }
 }

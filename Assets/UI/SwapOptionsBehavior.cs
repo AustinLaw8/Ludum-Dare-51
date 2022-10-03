@@ -7,6 +7,7 @@ public class SwapOptionsBehavior : MonoBehaviour
 {
     [SerializeField] private Image _frameLeft, _frameRight;
     public enum SelectionOption {LEFT, RIGHT};
+    public 
     // Start is called before the first frame update
     void Start()
     {
