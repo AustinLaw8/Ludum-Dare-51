@@ -10,8 +10,8 @@ public class UiCanvasBehavior : MonoBehaviour
     // Boxes are "empty" GameObjects that are parents for a set of UI/Menu elements
     protected GameObject[] _exclusiveBoxes; // for setExclusiveBoxActive()
 
-    public GameObject boxMainMenu, boxSettings, boxCredits, boxGameUI;
-    public GameObject buttonPauseQuit;
+    public GameObject boxMainMenu, boxSettings, boxCredits, boxGameUI, boxDeathScreen; // different game menus
+    public GameObject buttonPauseQuit; // button
     public Slider sliderSFXvolume;
     public float SFXvolumeValue;
     public Slider sliderMusicVolume;
@@ -20,6 +20,8 @@ public class UiCanvasBehavior : MonoBehaviour
     public float masterVolumeValue;
     private bool _settingsNotPause = false; // denotes whether boxSettings was set active as settings menu or as pause menu
     public bool paused {get {return boxSettings.activeInHierarchy && !_settingsNotPause;}}
+    //public TMPro.TMP_Text scoreText;
+    public Text scoreText;
 
     public void Start()
     {
@@ -77,6 +79,7 @@ public class UiCanvasBehavior : MonoBehaviour
         Application.Quit();
     }
 
+    // back to main menu screen
     public void ButtonBack()
     {
         SetExclusiveBoxActive(boxMainMenu);
@@ -99,7 +102,7 @@ public class UiCanvasBehavior : MonoBehaviour
             LevelControllerBehavior.levelController._levelActive = true;
         }
     }
-
+    
     public void ButtonPauseQuit()
     {
         LevelControllerBehavior.levelController._levelActive = false;
@@ -113,5 +116,17 @@ public class UiCanvasBehavior : MonoBehaviour
         _settingsNotPause = false;
         SetExclusiveBoxActive(boxSettings);
         buttonPauseQuit.SetActive(true);
+    }
+
+    public void enterDeathScreen() // called elsewhere when Phemie Dies
+    {
+        scoreText.Text = "You died! Score: " + playerScore.ToString();
+        LevelControllerBehavior.levelController._levelActive = false;
+        SetExclusiveBoxActive(boxDeathScreen);
+    }
+
+    public void buttonDeathScreenExitToMenu()
+    {   
+        SetExclusiveBoxActive(boxMainMenu);
     }
 }
