@@ -20,13 +20,12 @@ public class UiCanvasBehavior : MonoBehaviour
     public float masterVolumeValue;
     private bool _settingsNotPause = false; // denotes whether boxSettings was set active as settings menu or as pause menu
     public bool paused {get {return boxSettings.activeInHierarchy && !_settingsNotPause;}}
-    //public TMPro.TMP_Text scoreText;
-    public Text scoreText;
+    public TMPro.TMP_Text scoreText;
 
     public void Start()
     {
         uiCanvasBehavior = this;
-        _exclusiveBoxes = new GameObject[] {boxMainMenu, boxSettings, boxCredits, boxGameUI};
+        _exclusiveBoxes = new GameObject[] {boxMainMenu, boxSettings, boxCredits, boxGameUI, boxDeathScreen};
         SetExclusiveBoxActive(boxMainMenu);
         SFXvolumeValue = 1f;
         sliderSFXvolume.value = 1f;
@@ -120,7 +119,7 @@ public class UiCanvasBehavior : MonoBehaviour
 
     public void enterDeathScreen() // called elsewhere when Phemie Dies
     {
-        scoreText.text = "You died! Score: " + LevelControllerBehavior.levelController.playerScore.ToString();
+        scoreText.text = "You died!\nScore: " + LevelControllerBehavior.levelController.playerScore.ToString();
         LevelControllerBehavior.levelController._levelActive = false;
         SetExclusiveBoxActive(boxDeathScreen);
     }

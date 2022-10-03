@@ -37,7 +37,7 @@ public class LevelControllerBehavior : MonoBehaviour
     public float dimensionlessClampedTimeTilNextSwap {get {return Mathf.Clamp((10f -_gameDurationNextSwap + _gameDuration) / 10f, 0f, 1f);}}
     public float swapCount {get {return Mathf.Floor(_gameDuration / 10f);}}
     
-    public float playerScore;
+    public uint playerScore;
 
     void Awake()
     {
@@ -138,7 +138,7 @@ public class LevelControllerBehavior : MonoBehaviour
             _playerBehavior.Walk(movementMultiplierX, movementMultiplierY);
 
             // Weapon fire: 0 is L, 1 is R
-            if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1)) // L targets nearest enemy, R targets mouse location, default to nearest
+            if (Input.GetMouseButtonDown(0) || Input.GetMouseButton(0) || Input.GetMouseButtonDown(1) || Input.GetMouseButton(1)) // L targets nearest enemy, R targets mouse location, default to nearest
             {
                 currentWeapon.Fire(Camera.main.ScreenToWorldPoint(Input.mousePosition)); // check doc
             }
@@ -262,6 +262,10 @@ public class LevelControllerBehavior : MonoBehaviour
         {
             NextSwapData.boostMagnitudeR *= 5;
         }
+
+        _swapOptionsBehavior.UpdateChoiceVisuals(NextSwapData.weaponL, NextSwapData.weaponR,
+                                                 NextSwapData.statTypeL, NextSwapData.statTypeR,
+                                                 NextSwapData.boostMagnitudeL, NextSwapData.boostMagnitudeR);
     }
 
     private void ClaimSelectedOptions()

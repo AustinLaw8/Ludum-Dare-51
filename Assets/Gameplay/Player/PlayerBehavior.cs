@@ -14,6 +14,9 @@ public class PlayerBehavior : MonoBehaviour
     private float _critRate; public float critRate {get {return _critRate;} set {_critRate = value;}}
     private float _speedStat; public float speedStat {get {return _speedStat;} set {_speedStat = value;}}
     [SerializeField] private GameObject boundaryTopRight, boundaryBottomLeft;
+    [SerializeField] private GameObject _uiCanvas;
+
+    public int scaledPixelHeight;
     
     public bool facingLeft;
     // Start is called before the first frame update
@@ -33,7 +36,10 @@ public class PlayerBehavior : MonoBehaviour
             flip();
         }
 
-        _mainCamera.transform.position = new Vector3(transform.position.x, transform.position.y, _mainCamera.transform.position.z);
+        // figure out units shown in y-direction by _main camera
+        // change the y-position in the vector3 below by subtracting 10% of that distance you figured out above
+
+        _mainCamera.transform.position = new Vector3(transform.position.x, transform.position.y - 0.15f *_mainCamera.orthographicSize, _mainCamera.transform.position.z);
         LevelControllerBehavior.SetYDependentOrderInLayer(gameObject);
     }
 
@@ -54,6 +60,10 @@ public class PlayerBehavior : MonoBehaviour
     public void DamagePlayer(float hpDamaged)
     {
         _hp = Mathf.Min(maxHp, _hp - hpDamaged);
+        if (_hp <= 0f)
+        {
+            _uiCanvas.GetComponent<UiCanvasBehavior>().enterDeathScreen();
+        }
     }
 
     // returns given vector's distance to player
@@ -66,12 +76,6 @@ public class PlayerBehavior : MonoBehaviour
     // Input is read by LevelControllerBehavior, which calls this function
     public void Walk(int movementMultiplierX, int movementMultiplierY)
     {
-        // ensures player stays within map borders
-        float rBound = 10;
-        float lBound = 10;
-        float upperBound = 10;
-        float lowerBound = 10;
-
         float diagMultiplier = (movementMultiplierX != 0f && movementMultiplierY != 0f) ? Mathf.Sqrt(2) / 2 : 1f;
         
         float dx = diagMultiplier * movementMultiplierX * baseSpeed * speedStat / 100 * Time.deltaTime;

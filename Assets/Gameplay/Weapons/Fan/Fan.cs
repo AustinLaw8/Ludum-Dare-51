@@ -31,8 +31,8 @@ public class Fan : Weapon
 
     public Fan()
     {
-        _cooldown = .5f;
-        _baseAttack = 15f;
+        _cooldown = .15f;
+        _baseAttack = 1f;
         _baseCritRate = .15f;
     }
 
