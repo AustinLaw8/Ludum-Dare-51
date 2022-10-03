@@ -39,7 +39,7 @@ public class PlayerBehavior : MonoBehaviour
         // figure out units shown in y-direction by _main camera
         // change the y-position in the vector3 below by subtracting 10% of that distance you figured out above
 
-        _mainCamera.transform.position = new Vector3(transform.position.x, transform.position.y - 0.15f *_mainCamera.orthographicSize, _mainCamera.transform.position.z);
+        _mainCamera.transform.position = new Vector3(transform.position.x, transform.position.y - 0.1f *_mainCamera.orthographicSize, _mainCamera.transform.position.z);
         LevelControllerBehavior.SetYDependentOrderInLayer(gameObject);
     }
 
@@ -62,6 +62,7 @@ public class PlayerBehavior : MonoBehaviour
         _hp = Mathf.Min(maxHp, _hp - hpDamaged);
         if (_hp <= 0f)
         {
+            LevelControllerBehavior.levelController._gameOver = true;
             _uiCanvas.GetComponent<UiCanvasBehavior>().enterDeathScreen();
         }
     }

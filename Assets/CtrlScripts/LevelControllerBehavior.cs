@@ -21,6 +21,7 @@ public class LevelControllerBehavior : MonoBehaviour
     private PlayerBehavior _playerBehavior; public PlayerBehavior playerBehavior {get {return _playerBehavior;}}
     [SerializeField] private GameObject _swapOptionsBox; private SwapOptionsBehavior _swapOptionsBehavior;
     public bool _levelActive; 
+    public bool _gameOver = false;
     public Weapon currentWeapon;
 
     /* Weapon prefabs */
@@ -165,6 +166,7 @@ public class LevelControllerBehavior : MonoBehaviour
         player.transform.position = new Vector3(0f, 0f, 0f);
         _playerBehavior.RefreshPlayerStatsAndHealth();
         _levelActive = true;
+        _gameOver = false;
         _gameDuration = 0f;
         _gameDurationNextSwap = 10f;
         ChangeWeapon(Weapon.WeaponType.STAR);

@@ -60,6 +60,11 @@ public abstract class EnemyBehavior : MonoBehaviour
 
     void Update()
     {
+        if (LevelControllerBehavior.levelController._gameOver)
+        {
+            Destroy(this.gameObject);
+        }
+
         if (LevelControllerBehavior.levelController._levelActive)
         {
             if (range < dist2Player())

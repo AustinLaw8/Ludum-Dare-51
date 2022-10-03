@@ -38,7 +38,10 @@ public class HealthBarBehavior : MonoBehaviour
 
         // Update inner health bar fill ratio   
         healthBarInner.fillAmount = Mathf.Clamp(_behaviorPlayer.hp / _behaviorPlayer.maxHp, 0f, 1f);
-        coolDownBarInner.fillAmount = LevelControllerBehavior.levelController.currentWeapon.getCooldownProportionCompleted;
+        if (LevelControllerBehavior.levelController._levelActive)
+        {
+            coolDownBarInner.fillAmount = LevelControllerBehavior.levelController.currentWeapon.getCooldownProportionCompleted;
+        }
     }
 
     // called in Update() of PlayerBehavior. Prevents health bar from flipping around. Can't put in own update due to call order (causes noticable 1-frame delay)
