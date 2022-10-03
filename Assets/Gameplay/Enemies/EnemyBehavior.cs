@@ -46,7 +46,10 @@ public abstract class EnemyBehavior : MonoBehaviour
             LevelControllerBehavior.levelController.playerScore++;
             Destroy(this.gameObject);
         }
-        StartCoroutine(flashWhite());
+        else
+        {
+            StartCoroutine(flashWhite());
+        }
     }
 
     public abstract void Attack();

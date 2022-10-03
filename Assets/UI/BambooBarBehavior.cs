@@ -8,13 +8,16 @@ public class BambooBarBehavior : MonoBehaviour
     [SerializeField] private Image _bambooFillImage;
     private Slider _thisSlider;
 
-    void Awake()
+    void Start()
     {
         _thisSlider = GetComponent<Slider>();
     }
 
     public void sliderChanged()
     {
-        _bambooFillImage.fillAmount = _thisSlider.value;
+        if (_bambooFillImage && _thisSlider)
+        {
+            _bambooFillImage.fillAmount = _thisSlider.value;
+        }
     }
 }

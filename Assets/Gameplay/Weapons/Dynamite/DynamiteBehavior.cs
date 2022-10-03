@@ -37,6 +37,11 @@ public class DynamiteBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (LevelControllerBehavior.levelController._gameOver)
+        {
+            Destroy(gameObject);
+        }
+        
         if (LevelControllerBehavior.levelController._levelActive)
         {
             // current position add dynamiteEnemyDirection *t *dt *speed
