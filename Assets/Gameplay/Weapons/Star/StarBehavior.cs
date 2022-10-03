@@ -29,7 +29,7 @@ public class StarBehavior : MonoBehaviour
             Vector3 starDirectionUnitV3 = new Vector3(starDirectionUnit.x, starDirectionUnit.y, 0);
             Vector3 displacement = starDirectionUnitV3 * Time.deltaTime * starTravelSpeed;
 
-            RaycastHit2D[] starHits = Physics2D.CircleCastAll(transform.position, 0.37f, starDirectionUnitV3);
+            RaycastHit2D[] starHits = Physics2D.CircleCastAll(transform.position, 0.37f, starDirectionUnitV3, displacement.magnitude);
             foreach (RaycastHit2D starHit in starHits)
             {
                 EnemyBehavior hitBehavior = starHit.transform.gameObject.GetComponent<EnemyBehavior>();

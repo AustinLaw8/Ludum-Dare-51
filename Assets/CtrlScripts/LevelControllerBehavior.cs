@@ -164,14 +164,19 @@ public class LevelControllerBehavior : MonoBehaviour
         _levelActive = true;
         _gameDuration = 0f;
         _gameDurationNextSwap = 10f;
-        currentWeapon = GameObject.Instantiate(
-                weaponPrefabs[Weapon.WeaponType.STAR],
+        currentWeapon = ChangeWeapon(Weapon.WeaponType.STAR);
+        _swapOptionsBehavior.SelectOption(SwapOptionsBehavior.SelectionOption.LEFT);
+        TenSecondSwap(false);
+    }
+
+    private Weapon ChangeWeapon(Weapon.WeaponType newWeapon)
+    {
+        return GameObject.Instantiate(
+                weaponPrefabs[newWeapon],
                 new Vector3(PLAYER_CENTER.x + PLAYER_RADIUS * (playerBehavior.facingLeft ? -1f : 1f), PLAYER_CENTER.y, 0f),
                 Quaternion.identity,
                 _playerBehavior.transform)
                 .GetComponent<Weapon>();
-        _swapOptionsBehavior.SelectOption(SwapOptionsBehavior.SelectionOption.LEFT);
-        TenSecondSwap();
     }
 
     public void resetAudio()
@@ -241,16 +246,57 @@ public class LevelControllerBehavior : MonoBehaviour
         }
 
         // Random stat magnitudes
-        NextSwapData.boostMagnituedeL = Random.Range(2, 6);
-        NextSwapData.boostMagnituedeL = Random.Range(2, 6);
+        NextSwapData.boostMagnitudeL = Random.Range(2, 7);
+        if (NextSwapData.statTypeL == NextSwapData.BoostableStat.HP)
+        {
+            NextSwapData.boostMagnitudeL *= 5;
+        }
+        NextSwapData.boostMagnitudeR = Random.Range(2, 7);
+        if (NextSwapData.statTypeR == NextSwapData.BoostableStat.HP)
+        {
+            NextSwapData.boostMagnitudeR *= 5;
+        }
     }
 
     private void ClaimSelectedOptions()
     {
-        //_swapOptionsBehavior.
+        Weapon.WeaponType newWeapon;
+        NextSwapData.BoostableStat boostedStat;
+        int boostMagnitude;
+
+        if (_swapOptionsBehavior.leftSideSelected)
+        {
+            newWeapon = NextSwapData.weaponL;
+            boostedStat = NextSwapData.statTypeL;
+            boostMagnitude = NextSwapData.boostMagnitudeL;
+        }
+        else
+        {
+            newWeapon = NextSwapData.weaponR;
+            boostedStat = NextSwapData.statTypeR;
+            boostMagnitude = NextSwapData.boostMagnitudeR;
+        }
+
+        ChangeWeapon(newWeapon);
+
+        switch (boostedStat)
+        {
+            case NextSwapData.BoostableStat.ATTACK:
+                playerBehavior.attack += boostMagnitude;
+                break;
+            case NextSwapData.BoostableStat.HP:
+                playerBehavior.maxHp += boostMagnitude;
+                playerBehavior.hp += boostMagnitude;
+                break;
+            case NextSwapData.BoostableStat.CRITRATE:
+                playerBehavior.critRate += boostMagnitude;
+                break;
+            case NextSwapData.BoostableStat.SPEED:
+                playerBehavior.speedStat += boostMagnitude;
+                break;
+        }
     }
 
-    
     public static class NextSwapData
     {
         public enum BoostableStat {ATTACK, HP, SPEED, CRITRATE};
@@ -258,6 +304,6 @@ public class LevelControllerBehavior : MonoBehaviour
 
         public static Weapon.WeaponType weaponL, weaponR;
         public static BoostableStat statTypeL, statTypeR;
-        public static int boostMagnituedeL, boostMagnitudeR;
+        public static int boostMagnitudeL, boostMagnitudeR;
     }
 }
