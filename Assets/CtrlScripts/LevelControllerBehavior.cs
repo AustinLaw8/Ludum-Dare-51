@@ -97,16 +97,41 @@ public class LevelControllerBehavior : MonoBehaviour
 
             //  Movement
             //   Up/Down
+
+            // check player cannot go out of bounds
+            float rBound = 47.5f;
+            float lBound = -47.0f;
+            float upperBound = 27.1f;
+            float lowerBound = -25.5f;
+
+            /*
+            if(transform.position.x > rBound)
+                movementMultiplierX = 0;
+            else if(transform.position.x < lBound)
+                movementMultiplierX = 0;
+            if(transform.position.y < lowerBound)
+                movementMultiplierY = 0;
+            else if(transform.position.y > upperBound)
+                movementMultiplierY = 0;
+            */
+
             int movementMultiplierY = 0; // 0 means no movement, 1 means specified direction (up), -1 means opposite (down)
             if (Input.GetKey(KeyCode.W) != Input.GetKey(KeyCode.S))
             {
-                movementMultiplierY = Input.GetKey(KeyCode.W) ? 1 : -1;
+                if(Input.GetKey(KeyCode.W) && !(_playerBehavior.transform.position.y > upperBound))
+                    movementMultiplierY = Input.GetKey(KeyCode.W) ? 1 : -1;
+                else if(Input.GetKey(KeyCode.S) && !(_playerBehavior.transform.position.y < lowerBound))
+                    movementMultiplierY = Input.GetKey(KeyCode.W) ? 1 : -1;
             }
             //   Left/Right
             int movementMultiplierX = 0; // 0 means no movement, 1 means specified direction (up), -1 means opposite (down)
             if (Input.GetKey(KeyCode.D) != Input.GetKey(KeyCode.A))
             {
-                movementMultiplierX = Input.GetKey(KeyCode.D) ? 1 : -1;
+                if(Input.GetKey(KeyCode.D) && !(_playerBehavior.transform.position.x > rBound))
+                    movementMultiplierX = Input.GetKey(KeyCode.D) ? 1 : -1;
+                else if(Input.GetKey(KeyCode.A) && !(_playerBehavior.transform.position.x < lBound))
+                    movementMultiplierX = Input.GetKey(KeyCode.D) ? 1 : -1;
+                //movementMultiplierX = Input.GetKey(KeyCode.D) ? 1 : -1;
             }
             _playerBehavior.Walk(movementMultiplierX, movementMultiplierY);
 

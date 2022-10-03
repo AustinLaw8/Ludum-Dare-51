@@ -67,18 +67,14 @@ public class PlayerBehavior : MonoBehaviour
     public void Walk(int movementMultiplierX, int movementMultiplierY)
     {
         // ensures player stays within map borders
-        float rBound = 10;
-        float lBound = 10;
-        float upperBound = 10;
-        float lowerBound = 10;
-
-        float diagMultiplier = (movementMultiplierX != 0f && movementMultiplierY != 0f) ? Mathf.Sqrt(2) / 2 : 1f;
-
-        if (transform.position.x > rBound)
-        if (transform.position.y > upperBound)
         
-        transform.position = new Vector3(transform.position.x + diagMultiplier * movementMultiplierX * baseSpeed * speedStat / 100 * Time.deltaTime,
-                                         transform.position.y + diagMultiplier * movementMultiplierY * baseSpeed * speedStat / 100 * Time.deltaTime,
+        float diagMultiplier = (movementMultiplierX != 0f && movementMultiplierY != 0f) ? Mathf.Sqrt(2) / 2 : 1f;
+        
+        float dx = diagMultiplier * movementMultiplierX * baseSpeed * speedStat / 100 * Time.deltaTime;
+        float dy = diagMultiplier * movementMultiplierY * baseSpeed * speedStat / 100 * Time.deltaTime;
+        
+        transform.position = new Vector3(transform.position.x + dx,
+                                         transform.position.y + dy,
                                          transform.position.z);
     }
 
