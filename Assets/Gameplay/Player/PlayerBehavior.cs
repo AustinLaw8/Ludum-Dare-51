@@ -65,6 +65,7 @@ public class PlayerBehavior : MonoBehaviour
             LevelControllerBehavior.levelController._gameOver = true;
             _uiCanvas.GetComponent<UiCanvasBehavior>().enterDeathScreen();
         }
+        this.gameObject.GetComponent<AudioSource>().Play();
     }
 
     // returns given vector's distance to player

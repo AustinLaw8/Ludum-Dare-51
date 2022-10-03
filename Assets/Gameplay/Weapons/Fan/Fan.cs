@@ -18,7 +18,7 @@ public class Fan : Weapon
 {
     private static Vector3 FAN_OFFSET = new Vector3(0f,-.35f,0f);
     private static string SWING_ANIMATION_NAME = "FanSwing";
-
+    [SerializeField] private AudioClip SWING_SFX;
     [SerializeField] private GameObject WINDSLASH_PREFAB;
 
     protected override void Fire_Weapon(Vector3 targetLocation)
@@ -27,6 +27,7 @@ public class Fan : Weapon
         GameObject newProjectile = GameObject.Instantiate(WINDSLASH_PREFAB);  
         newProjectile.GetComponent<Windslash>().init(_playerTransform.position, targetLocation, _baseAttack, _baseCritRate);
         anim.Play("FanSwing");
+        LevelControllerBehavior.levelController.SFX(SWING_SFX);
     }
 
     public Fan()

@@ -119,6 +119,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8527edec43a924df29d17e52fe4d22e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SWING_SFX: {fileID: 8300000, guid: eaedd7247f5e84c3a829cfdf37d472f9, type: 3}
 --- !u!1 &6472499015946580416
 GameObject:
   m_ObjectHideFlags: 0

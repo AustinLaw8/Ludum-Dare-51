@@ -31,6 +31,7 @@ public class LevelControllerBehavior : MonoBehaviour
     // settings 
     public AudioSource menuThemeSource;
     public AudioSource battleThemeSource;
+    public AudioSource sfxSource;
 
     private float musicVol, sfxVol, masterVol, fontSize;
 
@@ -65,8 +66,9 @@ public class LevelControllerBehavior : MonoBehaviour
     void Start()
     {
         _levelActive = false;
-        menuThemeSource = Camera.main.transform.GetChild(0).gameObject.GetComponent<AudioSource>();
-        battleThemeSource = Camera.main.transform.GetChild(1).gameObject.GetComponent<AudioSource>();
+        if (menuThemeSource == null) menuThemeSource = Camera.main.transform.GetChild(0).gameObject.GetComponent<AudioSource>();
+        if (battleThemeSource == null) battleThemeSource = Camera.main.transform.GetChild(1).gameObject.GetComponent<AudioSource>();
+        if (sfxSource == null) sfxSource = Camera.main.transform.GetChild(3).gameObject.GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -169,7 +171,7 @@ public class LevelControllerBehavior : MonoBehaviour
         _gameOver = false;
         _gameDuration = 0f;
         _gameDurationNextSwap = 10f;
-        ChangeWeapon(Weapon.WeaponType.STAR);
+        ChangeWeapon(Weapon.WeaponType.DYNAMITE);
         _swapOptionsBehavior.SelectOption(SwapOptionsBehavior.SelectionOption.LEFT);
         TenSecondSwap(false);
     }
@@ -195,6 +197,14 @@ public class LevelControllerBehavior : MonoBehaviour
         menuThemeSource.Play();
     }
 
+    public void SFX(AudioClip c, float mult=1f)
+    {
+        float tempVol = sfxSource.volume;
+        sfxSource.volume *= mult;
+        sfxSource.clip = c;
+        sfxSource.Play();
+        sfxSource.volume = tempVol;
+    }
     // Called by any gameObject with a SpriteRenderer in their Update to set their OrderInLayer to a value dependent on the lowest point of their y-position
     public static void SetYDependentOrderInLayer(GameObject callingObject)
     {

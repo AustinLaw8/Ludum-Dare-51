@@ -118,5 +118,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efb937462564db24197863a5f82cd82f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  offset: {x: 0, y: 0, z: 0}
   DynamiteProjectilePrefab: {fileID: 187508149961926438, guid: d998c5ab3c7c7a046a3b3f9f8f344626, type: 3}
+  FIRE_SFX: {fileID: 8300000, guid: f0013f24218494a0f8a16d459827b9a3, type: 3}

@@ -5,6 +5,7 @@ using UnityEngine;
 public class DynamiteBehavior : MonoBehaviour
 {
     [SerializeField] private GameObject DynamiteExplosionPrefab;
+    [SerializeField] private AudioClip BOOM_SFX;
     private float dynamiteAttack;
     private float dynamiteCritRate;
     private float dynamiteTravelRange = 1f;
@@ -65,6 +66,7 @@ public class DynamiteBehavior : MonoBehaviour
                 }
                 GameObject newProjectile = GameObject.Instantiate(DynamiteExplosionPrefab) as GameObject;
                 newProjectile.transform.position = transform.position;
+                LevelControllerBehavior.levelController.SFX(BOOM_SFX, .1f);
                 Destroy(dynamiteCollider);
                 Destroy(tempGameObject);
                 Destroy(gameObject);

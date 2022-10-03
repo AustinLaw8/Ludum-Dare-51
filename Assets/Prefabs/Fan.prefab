@@ -98,6 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95670b6889f2349c4be03122485e4efe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SWING_SFX: {fileID: 8300000, guid: 48b2080f582804fd2b43ca7a46c53655, type: 3}
   WINDSLASH_PREFAB: {fileID: 96118036464174762, guid: 3963acfcfeefd4276ace289c24e81fcc, type: 3}
 --- !u!95 &145513011
 Animator:

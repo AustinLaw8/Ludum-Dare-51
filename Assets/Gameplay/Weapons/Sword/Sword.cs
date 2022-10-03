@@ -18,7 +18,7 @@ using UnityEngine;
 public class Sword : Weapon
 {
     private static string SWING_ANIMATION_NAME = "SwordSwing";
-    private static float SWING_ANIMATION_TIME;
+    [SerializeField] private AudioClip SWING_SFX;
     private float _angle;
     private bool attacking;
     private BoxCollider2D bx;
@@ -50,6 +50,7 @@ public class Sword : Weapon
         attacking = true;
         bx.enabled = true;
         anim.Play(SWING_ANIMATION_NAME);
+        LevelControllerBehavior.levelController.SFX(SWING_SFX);
     }
 
     protected override void WeaponSpecificSetup()

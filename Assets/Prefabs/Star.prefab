@@ -98,3 +98,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StarProjectilePrefab: {fileID: 6419859601643723684, guid: d312d4facf5975f47a04928973bf7ba7, type: 3}
+  THROW_SFX: {fileID: 8300000, guid: 08b72fb016eed4e3587eb6200f984e8a, type: 3}

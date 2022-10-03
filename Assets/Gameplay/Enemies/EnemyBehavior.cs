@@ -46,7 +46,6 @@ public abstract class EnemyBehavior : MonoBehaviour
             LevelControllerBehavior.levelController.playerScore++;
             Destroy(this.gameObject);
         }
-        Debug.Log("hit");
         StartCoroutine(flashWhite());
     }
 

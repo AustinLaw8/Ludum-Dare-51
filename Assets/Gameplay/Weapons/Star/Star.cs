@@ -18,6 +18,7 @@ using UnityEngine;
 public class Star : Weapon
 {
     [SerializeField] private GameObject StarProjectilePrefab;
+    [SerializeField] private AudioClip THROW_SFX;
     private float _flySpeed;
 
     protected override void Fire_Weapon(Vector3 targetLocation)
@@ -27,6 +28,7 @@ public class Star : Weapon
         Vector2 starPath = targetLocation - _playerTransform.position;   
         newProjectile.GetComponent<StarBehavior>().SetUp(_baseAttack, _baseCritRate, _flySpeed, starPath);
         GetComponent<SpriteRenderer>().enabled = false;
+        LevelControllerBehavior.levelController.SFX(THROW_SFX);
     }
 
     public Star()

@@ -43,8 +43,9 @@ public class UiCanvasBehavior : MonoBehaviour
             musicVolumeValue = sliderMusicVolume.value;
             masterVolumeValue = sliderMasterVolume.value;
         }
-        LevelControllerBehavior.levelController.menuThemeSource.volume = sliderMusicVolume.value * masterVolumeValue;
-        LevelControllerBehavior.levelController.battleThemeSource.volume = sliderMusicVolume.value * masterVolumeValue;
+        LevelControllerBehavior.levelController.menuThemeSource.volume = musicVolumeValue * masterVolumeValue;
+        LevelControllerBehavior.levelController.battleThemeSource.volume = musicVolumeValue * masterVolumeValue;
+        LevelControllerBehavior.levelController.sfxSource.volume = SFXvolumeValue * masterVolumeValue;
     }
 
     public void SetExclusiveBoxActive(GameObject box)

@@ -119,3 +119,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DynamiteExplosionPrefab: {fileID: 2819532493540165360, guid: 1d86164c196d0f34fbc636a305473533, type: 3}
+  BOOM_SFX: {fileID: 8300000, guid: d54a6d3b8d87c40f586dd107bd5971a7, type: 3}
