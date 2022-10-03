@@ -11,10 +11,10 @@ public class LevelControllerBehavior : MonoBehaviour
     //  This will also allow all other classes to access common data that is stored in the LevelControllerBehavior
     public static LevelControllerBehavior levelController;
     public static Vector3 PLAYER_CENTER = new Vector3(.1f,-.1f,0);
-    public static float PLAYER_RADIUS = .5f;
+    public static float PLAYER_RADIUS = .6f;
     public static float MIN_SPAWN_DISTANCE = 12.5f;
-    public static int ENEMY_COUNT_INITIAL_SPAWN = 4;
-    public static float DIFFICULTY_FACTOR = 0.5f; // for now affects BOTH scaling of enmy spawn count per wave and enemy non-HP stats
+    public static int ENEMY_COUNT_INITIAL_SPAWN = 8;
+    public static float DIFFICULTY_FACTOR = 0.55f; // for now affects BOTH scaling of enmy spawn count per wave and enemy non-HP stats
     public GameObject MELEE_ENEMY_PREFAB;
 
     public GameObject player;
@@ -233,7 +233,7 @@ public class LevelControllerBehavior : MonoBehaviour
 
     private void SpawnEnemyWave()
     {
-        int enemiesToSpawn = Mathf.FloorToInt(ENEMY_COUNT_INITIAL_SPAWN + swapCount * DIFFICULTY_FACTOR * Random.Range(0.8f, 1.2f));
+        int enemiesToSpawn = Mathf.FloorToInt(ENEMY_COUNT_INITIAL_SPAWN + swapCount * DIFFICULTY_FACTOR * Random.Range(0.9f, 1.3f));
         for (int i = 0; i < enemiesToSpawn; i++)
         {
             GameObject newEnemy = GameObject.Instantiate(MELEE_ENEMY_PREFAB) as GameObject;
@@ -242,7 +242,7 @@ public class LevelControllerBehavior : MonoBehaviour
             float statScaleFactor = Mathf.Pow((1f + DIFFICULTY_FACTOR / 10f), swapCount) * Random.Range(0.8f, 1.2f);
             newEnemyBehavior.maxHp *= statScaleFactor;
             newEnemyBehavior.hp = newEnemyBehavior.maxHp;
-            newEnemyBehavior.speed += newEnemyBehavior.speed * DIFFICULTY_FACTOR / 20f * swapCount * Random.Range(0.8f, 1.2f);
+            newEnemyBehavior.speed += newEnemyBehavior.speed * DIFFICULTY_FACTOR / 12f * swapCount * Random.Range(0.8f, 1.2f);
         }
     }
 
@@ -272,15 +272,15 @@ public class LevelControllerBehavior : MonoBehaviour
         }
 
         // Random stat magnitudes
-        NextSwapData.boostMagnitudeL = Random.Range(2, 7);
+        NextSwapData.boostMagnitudeL = Random.Range(3, 11);
         if (NextSwapData.statTypeL == NextSwapData.BoostableStat.HP)
         {
-            NextSwapData.boostMagnitudeL *= 5;
+            NextSwapData.boostMagnitudeL *= 3;
         }
-        NextSwapData.boostMagnitudeR = Random.Range(2, 7);
+        NextSwapData.boostMagnitudeR = Random.Range(3, 11);
         if (NextSwapData.statTypeR == NextSwapData.BoostableStat.HP)
         {
-            NextSwapData.boostMagnitudeR *= 5;
+            NextSwapData.boostMagnitudeR *= 3;
         }
 
         _swapOptionsBehavior.UpdateChoiceVisuals(NextSwapData.weaponL, NextSwapData.weaponR,

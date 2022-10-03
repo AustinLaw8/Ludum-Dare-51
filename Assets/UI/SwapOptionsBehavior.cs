@@ -24,7 +24,7 @@ public class SwapOptionsBehavior : MonoBehaviour
         {
             PlayerBehavior playerBehavior = LevelControllerBehavior.levelController.playerBehavior;
             _statsText.text = ("Atk:            " + Mathf.RoundToInt(playerBehavior.attack).ToString() 
-                            + "\nHP:      " + (playerBehavior.hp < 100f ? " " : "") + (playerBehavior.hp < 10f ? " " : "") + Mathf.RoundToInt(playerBehavior.hp).ToString() + "/" + Mathf.RoundToInt(playerBehavior.maxHp).ToString()
+                            + "\nHP:      " + (playerBehavior.maxHp < 100f ? " " : "") + (playerBehavior.hp < 100f ? " " : "") + (playerBehavior.hp < 10f ? " " : "") + Mathf.RoundToInt(playerBehavior.hp).ToString() + "/" + Mathf.RoundToInt(playerBehavior.maxHp).ToString()
                             + "\nCrit Rate: " + (playerBehavior.critRate < 10f ? " " : "") + "+" + Mathf.RoundToInt(playerBehavior.critRate).ToString() + "%"
                             + "\nSpeed:        " + Mathf.RoundToInt(playerBehavior.speedStat).ToString());
 

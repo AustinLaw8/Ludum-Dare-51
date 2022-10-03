@@ -26,7 +26,7 @@ public class Sword : Weapon
     public Sword()
     {
         _cooldown = .25f;
-        _baseAttack = 10f;
+        _baseAttack = 8f;
         _baseCritRate = .1f;
         _angle = 90f;
     }

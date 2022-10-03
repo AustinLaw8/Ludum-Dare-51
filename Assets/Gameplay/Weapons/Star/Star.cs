@@ -34,7 +34,7 @@ public class Star : Weapon
     public Star()
     {
         _cooldown = .35f;
-        _baseAttack = 3f;
+        _baseAttack = 6.5f;
         _baseCritRate = .2f;
         _flySpeed = 20f;
     }
