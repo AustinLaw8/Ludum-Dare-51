@@ -32,6 +32,7 @@ public class LevelControllerBehavior : MonoBehaviour
     public AudioSource menuThemeSource;
     public AudioSource battleThemeSource;
     public AudioSource sfxSource;
+    public AudioClip onButtonPress;
 
     private float musicVol, sfxVol, masterVol, fontSize;
 
@@ -205,6 +206,12 @@ public class LevelControllerBehavior : MonoBehaviour
         sfxSource.Play();
         sfxSource.volume = tempVol;
     }
+
+    public void OnButtonPress() {
+        sfxSource.clip = onButtonPress;
+        sfxSource.Play();
+    }
+    
     // Called by any gameObject with a SpriteRenderer in their Update to set their OrderInLayer to a value dependent on the lowest point of their y-position
     public static void SetYDependentOrderInLayer(GameObject callingObject)
     {
