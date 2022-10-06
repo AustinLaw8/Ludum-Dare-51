@@ -39,6 +39,12 @@ public class SwapOptionsBehavior : MonoBehaviour
         leftSideSelected = option == SelectionOption.LEFT;
     }
 
+    public void SwapOption()
+    {
+        _frameLeft.enabled = !_frameLeft.enabled;
+        _frameRight.enabled = !_frameRight.enabled;
+    }
+
     public void UpdateChoiceVisuals(Weapon.WeaponType wepL, Weapon.WeaponType wepR,
                                     LevelControllerBehavior.NextSwapData.BoostableStat statL, LevelControllerBehavior.NextSwapData.BoostableStat statR,
                                     int magL, int magR)

@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//HERE: got rid of using System.Math, it's Mathf instead and you already have access
 
 public abstract class EnemyBehavior : MonoBehaviour 
 {

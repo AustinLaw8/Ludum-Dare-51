@@ -110,17 +110,6 @@ public class LevelControllerBehavior : MonoBehaviour
             float upperBound = 27.1f;
             float lowerBound = -25.5f;
 
-            /*
-            if(transform.position.x > rBound)
-                movementMultiplierX = 0;
-            else if(transform.position.x < lBound)
-                movementMultiplierX = 0;
-            if(transform.position.y < lowerBound)
-                movementMultiplierY = 0;
-            else if(transform.position.y > upperBound)
-                movementMultiplierY = 0;
-            */
-
             int movementMultiplierY = 0; // 0 means no movement, 1 means specified direction (up), -1 means opposite (down)
             if (Input.GetKey(KeyCode.W) != Input.GetKey(KeyCode.S))
             {
@@ -151,6 +140,10 @@ public class LevelControllerBehavior : MonoBehaviour
             if (Input.GetKey(KeyCode.Q) != Input.GetKey(KeyCode.E))
             {
                 _swapOptionsBehavior.SelectOption(Input.GetKey(KeyCode.Q) ? SwapOptionsBehavior.SelectionOption.LEFT : SwapOptionsBehavior.SelectionOption.RIGHT);
+            }
+            if (Input.GetKeyDown(KeyCode.LeftShift))
+            {
+                _swapOptionsBehavior.SwapOption();
             }
         }
     }
