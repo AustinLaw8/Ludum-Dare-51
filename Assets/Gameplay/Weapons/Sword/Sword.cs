@@ -19,7 +19,7 @@ public class Sword : Weapon
 {
     private static string SWING_ANIMATION_NAME = "SwordSwing";
     [SerializeField] private AudioClip SWING_SFX;
-    private float _angle;
+    private float _angle, _knockback; public float knockback {get {return _knockback;}}
     private bool attacking;
     private BoxCollider2D bx;
     
@@ -29,6 +29,7 @@ public class Sword : Weapon
         _baseAttack = 8f;
         _baseCritRate = .1f;
         _angle = 90f;
+        _knockback = .75f;
     }
 
     protected override void Fire_Weapon(Vector3 targetLocation)
