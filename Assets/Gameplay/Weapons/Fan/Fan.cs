@@ -33,8 +33,8 @@ public class Fan : Weapon
     public Fan()
     {
         _cooldown = .15f;
-        _baseAttack = 1.5f;
-        _baseCritRate = .05f;
+        _baseAttack = 1.6f;
+        _baseCritRate = 0.0f;
     }
 
     protected override void reset() 

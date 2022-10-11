@@ -21,8 +21,8 @@ public class Dynamite : Weapon
     public Dynamite()
     {
         _cooldown = .8f;
-        _baseAttack = 18f;
-        _baseCritRate = .08f;
+        _baseAttack = 19f;
+        _baseCritRate = 0.0f;
         _range = 20f;
         _flySpeed = 5f;
         _baseRadius = 3f;

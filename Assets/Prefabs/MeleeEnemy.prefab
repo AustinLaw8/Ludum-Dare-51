@@ -100,13 +100,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb32993cc0f467145ad0dc5a4b2c2c1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attack: 5
-  range: 2
-  speed: 2.6
+  attack: 7
+  range: 1.6
+  speed: 2.7
   hp: 32
   maxHp: 32
   cooldown: 2
   maxCD: 2
+  stunRemaining: 0
 --- !u!95 &813174236206346161
 Animator:
   serializedVersion: 4

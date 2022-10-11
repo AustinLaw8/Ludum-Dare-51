@@ -26,10 +26,10 @@ public class Sword : Weapon
     public Sword()
     {
         _cooldown = .25f;
-        _baseAttack = 8f;
-        _baseCritRate = .1f;
+        _baseAttack = 9f;
+        _baseCritRate = 0f;
         _angle = 90f;
-        _knockback = .75f;
+        _knockback = .4f;
     }
 
     protected override void Fire_Weapon(Vector3 targetLocation)

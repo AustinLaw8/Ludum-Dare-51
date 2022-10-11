@@ -8,7 +8,7 @@ public abstract class EnemyBehavior : MonoBehaviour
     protected Animator anim;
 
     // Enemy fields
-    public float attack, range, speed, hp, maxHp, cooldown, maxCD; // cd for attacking
+    public float attack, range, speed, hp, maxHp, cooldown, maxCD, stunRemaining; // cd for attacking
 
     // get dist from this enemy to player object
     public float dist2Player()
@@ -68,17 +68,24 @@ public abstract class EnemyBehavior : MonoBehaviour
 
         if (LevelControllerBehavior.levelController._levelActive)
         {
-            if (range < dist2Player())
-                move2Player(); // set default x,y multipliers
-            else
-                Attack();
-            facePlayer();
-            // update cooldown if necessary
+            if (stunRemaining > 0f)
+            {
+                stunRemaining -= Time.deltaTime;
+            }
+            else 
+            {
+                if (range < dist2Player())
+                    move2Player(); // set default x,y multipliers
+                else
+                    Attack();
+                facePlayer();
+                // update cooldown if necessary
 
-            if (cooldown > 0)
-                cooldown -= Time.deltaTime;
+                if (cooldown > 0)
+                    cooldown -= Time.deltaTime;
 
-            LevelControllerBehavior.SetYDependentOrderInLayer(gameObject);
+                LevelControllerBehavior.SetYDependentOrderInLayer(gameObject);
+            }
         }
     }
 
@@ -96,26 +103,35 @@ public abstract class EnemyBehavior : MonoBehaviour
         range = rng;
         maxCD = cd; // max timer on cooldown
         cooldown = 0; // current cooldown
+        stunRemaining = -1f;
     }
 
     private IEnumerator flashWhite() {
-        float t = anim.GetCurrentAnimatorStateInfo(0).normalizedTime;
-        float animTime = anim.GetCurrentAnimatorClipInfo(0)[0].clip.length;
-        if (anim.GetBool("attacking")) {
-            anim.Play("EnemyAttackWhite", -1, t % animTime);
-        } else {
-            anim.Play("EnemyFloatWhite", -1, t % animTime);
-        }
+        if (gameObject)
+        {
+            float t = anim.GetCurrentAnimatorStateInfo(0).normalizedTime;
+            float animTime = anim.GetCurrentAnimatorClipInfo(0)[0].clip.length;
+            if (anim.GetBool("attacking")) {
+                anim.Play("EnemyAttackWhite", -1, t % animTime);
+            } else {
+                anim.Play("EnemyFloatWhite", -1, t % animTime);
+            }
 
-        yield return new WaitForSeconds(.1f);
+            yield return new WaitForSeconds(.1f);
 
-        t = anim.GetCurrentAnimatorStateInfo(0).normalizedTime;
-        animTime = anim.GetCurrentAnimatorClipInfo(0)[0].clip.length;
-        if (anim.GetBool("attacking")) {
-            anim.Play("EnemyAttack", -1, t % animTime);
-        } else {
-            anim.Play("MeleeEnemyMove", -1, t % animTime);
+            t = anim.GetCurrentAnimatorStateInfo(0).normalizedTime;
+            animTime = anim.GetCurrentAnimatorClipInfo(0)[0].clip.length;
+            if (anim.GetBool("attacking")) {
+                anim.Play("EnemyAttack", -1, t % animTime);
+            } else {
+                anim.Play("MeleeEnemyMove", -1, t % animTime);
+            }
         }
+    }
+
+    public void StunEnemy(float stunDur)
+    {
+        stunRemaining = stunDur;
     }
 
     // ============================== COMMON METHODS =====================================

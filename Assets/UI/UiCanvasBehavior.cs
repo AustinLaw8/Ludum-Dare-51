@@ -107,6 +107,7 @@ public class UiCanvasBehavior : MonoBehaviour
     public void ButtonPauseQuit()
     {
         LevelControllerBehavior.levelController._levelActive = false;
+        LevelControllerBehavior.levelController._gameOver = true;
         LevelControllerBehavior.levelController.resetAudio();
         SetExclusiveBoxActive(boxMainMenu);
     }

@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class SwapOptionsBehavior : MonoBehaviour
 {
     [SerializeField] private Image _frameLeft, _frameRight;
+    [SerializeField] private Image _lightenerLeft, _lightenerRight;
+    [SerializeField] private Color unSelected, selected;
     [SerializeField] private Image _weaponLeft, _weaponRight;
     [SerializeField] private TMPro.TMP_Text _textLeft, _textRight;
     [SerializeField] Sprite _starIcon, _swordIcon, _fanIcon, _dynamiteIcon;
@@ -35,14 +37,21 @@ public class SwapOptionsBehavior : MonoBehaviour
     public void SelectOption(SelectionOption option)
     {
         _frameLeft.enabled = option == SelectionOption.LEFT;
+        _lightenerLeft.enabled = _frameLeft.enabled;
+
         _frameRight.enabled = option == SelectionOption.RIGHT;
+        _lightenerRight.enabled = _frameRight.enabled;
+
         leftSideSelected = option == SelectionOption.LEFT;
     }
 
     public void SwapOption()
     {
         _frameLeft.enabled = !_frameLeft.enabled;
+        _lightenerLeft.enabled = _frameLeft.enabled;
+
         _frameRight.enabled = !_frameRight.enabled;
+        _lightenerRight.enabled = _frameRight.enabled;
     }
 
     public void UpdateChoiceVisuals(Weapon.WeaponType wepL, Weapon.WeaponType wepR,

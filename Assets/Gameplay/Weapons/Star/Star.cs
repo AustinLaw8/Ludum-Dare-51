@@ -19,24 +19,27 @@ public class Star : Weapon
 {
     [SerializeField] private GameObject StarProjectilePrefab;
     [SerializeField] private AudioClip THROW_SFX;
-    private float _flySpeed;
+    private float _flySpeed, _stunDuration;
+    private int _pierce;
 
     protected override void Fire_Weapon(Vector3 targetLocation)
     {
         Transform _playerTransform = LevelControllerBehavior.levelController.playerBehavior.transform;
         GameObject newProjectile = GameObject.Instantiate(StarProjectilePrefab) as GameObject;  
         Vector2 starPath = targetLocation - _playerTransform.position;   
-        newProjectile.GetComponent<StarBehavior>().SetUp(_baseAttack, _baseCritRate, _flySpeed, starPath);
+        newProjectile.GetComponent<StarBehavior>().SetUp(_baseAttack, _baseCritRate, _flySpeed, starPath, _pierce, _stunDuration);
         GetComponent<SpriteRenderer>().enabled = false;
         LevelControllerBehavior.levelController.SFX(THROW_SFX);
     }
 
     public Star()
     {
-        _cooldown = .35f;
-        _baseAttack = 6.5f;
-        _baseCritRate = .2f;
+        _cooldown = .333f;
+        _baseAttack = 1f;
+        _baseCritRate = 0.0f;
         _flySpeed = 20f;
+        _pierce = 100000;
+        _stunDuration = 0.5f;
     }
 
     protected override void reset() 
