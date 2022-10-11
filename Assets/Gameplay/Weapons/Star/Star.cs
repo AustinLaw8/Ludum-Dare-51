@@ -39,7 +39,7 @@ public class Star : Weapon
         _baseCritRate = 0.0f;
         _flySpeed = 20f;
         _pierce = 100000;
-        _stunDuration = 0.5f;
+        _stunDuration = 0.38f;
     }
 
     protected override void reset() 
