@@ -81,12 +81,10 @@ public class PlayerBehavior : MonoBehaviour
     {
         float diagMultiplier = (movementMultiplierX != 0f && movementMultiplierY != 0f) ? Mathf.Sqrt(2) / 2 : 1f;
         
-        float dx = diagMultiplier * movementMultiplierX * baseSpeed * speedStat / 100 * Time.deltaTime;
-        float dy = diagMultiplier * movementMultiplierY * baseSpeed * speedStat / 100 * Time.deltaTime;
+        float dx = diagMultiplier * movementMultiplierX * baseSpeed * speedStat / 100;
+        float dy = diagMultiplier * movementMultiplierY * baseSpeed * speedStat / 100;
         
-        transform.position = new Vector3(transform.position.x + dx,
-                                         transform.position.y + dy,
-                                         transform.position.z);
+        this.GetComponent<Rigidbody2D>().velocity = new Vector3(dx, dy, 0);
     }
 
     private void flip() {

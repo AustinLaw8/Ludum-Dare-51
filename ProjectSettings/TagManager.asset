@@ -54,3 +54,6 @@ TagManager:
   - name: Fan
     uniqueID: 1602768467
     locked: 0
+  - name: InFront
+    uniqueID: 600968921
+    locked: 0
