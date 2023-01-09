@@ -23,6 +23,7 @@ public class LevelControllerBehavior : MonoBehaviour
     public bool _levelActive; 
     public bool _gameOver = false;
     public Weapon currentWeapon;
+    public FlagHandler flagHandler;
 
     /* Weapon prefabs */
     public GameObject SWORD_PREFAB, STAR_PREFAB, DYNAMITE_PREFAB, FAN_PREFAB;
@@ -75,6 +76,17 @@ public class LevelControllerBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        flagHandler.CheckFlags();
+
+        if(flagHandler.IsFlagDisplayed())
+        {
+            if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P))
+            {
+                flagHandler.DisableFlagDisplay();
+            }
+            return;
+        }
+
         // Input
         //  Pause
         if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.P))
@@ -218,7 +230,7 @@ public class LevelControllerBehavior : MonoBehaviour
     // Don't worry about updating next swap time, already handled in Update() above
     private void TenSecondSwap(bool claimSelectedOptions = true)
     {
-        SpawnEnemyWave();
+        // SpawnEnemyWave();
         if (claimSelectedOptions)
             ClaimSelectedOptions();
         SetNextSwapOptions();

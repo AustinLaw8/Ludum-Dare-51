@@ -8,11 +8,11 @@ public class PlayerBehavior : MonoBehaviour
     [SerializeField] private Camera _mainCamera;
     [SerializeField] private UnityEngine.UI.Image _healthBar;
     private HealthBarBehavior _healthBarBehavior;
-    private float _maxHp; public float maxHp {get {return _maxHp;} set {_maxHp = value;}}
-    private float _hp; public float hp {get {return _hp;} set {_hp = value;}}
-    private float _attack; public float attack {get {return _attack;} set {_attack = value;}}
-    private float _critRate; public float critRate {get {return _critRate;} set {_critRate = value;}}
-    private float _speedStat; public float speedStat {get {return _speedStat;} set {_speedStat = value;}}
+    [SerializeField] private float _maxHp; public float maxHp {get {return _maxHp;} set {_maxHp = value;}}
+    [SerializeField] private float _hp; public float hp {get {return _hp;} set {_hp = value;}}
+    [SerializeField] private float _attack; public float attack {get {return _attack;} set {_attack = value;}}
+    [SerializeField] private float _critRate; public float critRate {get {return _critRate;} set {_critRate = value;}}
+    [SerializeField] private float _speedStat; public float speedStat {get {return _speedStat;} set {_speedStat = value;}}
     [SerializeField] private GameObject boundaryTopRight, boundaryBottomLeft;
     [SerializeField] private GameObject _uiCanvas;
 
