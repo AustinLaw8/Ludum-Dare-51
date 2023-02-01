@@ -1,4 +1,5 @@
 using TMPro;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +7,7 @@ using UnityEngine;
 public class FlagHandler : MonoBehaviour
 {
     private enum Flags {
-        Attack
+        One, Two, Three, Four
     }
 
     [SerializeField] private GameObject flagTextBox;
@@ -16,10 +17,17 @@ public class FlagHandler : MonoBehaviour
     private PlayerBehavior player;
 
     private Dictionary<Flags, string> flagToNameMap = new Dictionary<Flags, string>{
-        {Flags.Attack, "Temp Name"}
+        {Flags.One, "SSBhbSBBdG9taWM="},
+        {Flags.Two, "QXNzYXNzaW4="},
+        {Flags.Three, "VG9vIFRhbmt5"},
+        {Flags.Four, "RVogTW9kZQ=="},
     };
+
     private Dictionary<Flags, string> flagToStringMap = new Dictionary<Flags, string>{
-        {Flags.Attack, "its_over_9000"}
+        {Flags.One, "aXRzX292ZXJfOTAwMA=="},
+        {Flags.Two, "bXlfbmluamFfd2F5X2lzX2hhY2t6"},
+        {Flags.Three, "c29tZXRoaW5nX2Fib3V0X25vdF9keWluZwo="},
+        {Flags.Four, "d2hlcmVzX3RoZV9lbmVtaWVz"},
     };
 
     void Start()
@@ -29,13 +37,23 @@ public class FlagHandler : MonoBehaviour
         player = LevelControllerBehavior.levelController.playerBehavior;
     }
 
-    // Update is called once per frame
     public void CheckFlags()
     {
-        // Attack 
-        if (!flagsAcquired.Contains(Flags.Attack) && player.attack > 9000)
+        if (!flagsAcquired.Contains(Flags.One) && player.attack > 9000)
         {
-            DisplayFlagText(Flags.Attack);
+            DisplayFlagText(Flags.One);
+        }
+        if (!flagsAcquired.Contains(Flags.Two) && player.critRate >= 100)
+        {
+            DisplayFlagText(Flags.Two);
+        }
+        if (!flagsAcquired.Contains(Flags.Three) && player.hp > 9999)
+        {
+            DisplayFlagText(Flags.Three);
+        }
+        if (!flagsAcquired.Contains(Flags.Four) && !LevelControllerBehavior.levelController.didUpdate)
+        {
+            DisplayFlagText(Flags.Four);
         }
     }
 
@@ -53,8 +71,12 @@ public class FlagHandler : MonoBehaviour
     {
         flagsAcquired.Add(flag);
         flagTextBox.SetActive(true);
-        nameText.text = flagToNameMap[flag];
-        flagText.text = $"flag{{{flagToStringMap[flag]}}}";
+        nameText.text = Decode(flagToNameMap[flag]);
+        flagText.text = $"flag{{{Decode(flagToStringMap[flag])}}}";
         LevelControllerBehavior.levelController._levelActive = false;
+    }
+
+    private static string Decode(string str) {
+        return System.Text.Encoding.UTF8.GetString(System.Convert.FromBase64String(str));
     }
 }

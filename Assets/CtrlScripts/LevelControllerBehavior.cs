@@ -42,6 +42,9 @@ public class LevelControllerBehavior : MonoBehaviour
     public float swapCount {get {return Mathf.Floor(_gameDuration / 10f);}}
     
     public uint playerScore;
+    
+    public bool didUpdate;
+    public int enemyCount;
 
     void Awake()
     {
@@ -62,6 +65,9 @@ public class LevelControllerBehavior : MonoBehaviour
                 { Weapon.WeaponType.DYNAMITE, DYNAMITE_PREFAB},
                 { Weapon.WeaponType.FAN, FAN_PREFAB}
                 };
+        
+        didUpdate = true;
+        enemyCount = 0;
     }
 
     // Start is called before the first frame update
@@ -109,7 +115,9 @@ public class LevelControllerBehavior : MonoBehaviour
             if (_gameDuration >= _gameDurationNextSwap)
             {
                 // Swap time!
+                int temp = enemyCount;
                 TenSecondSwap();
+                didUpdate = temp != enemyCount;
                 _gameDurationNextSwap += 10f;
             }
 
@@ -230,7 +238,7 @@ public class LevelControllerBehavior : MonoBehaviour
     // Don't worry about updating next swap time, already handled in Update() above
     private void TenSecondSwap(bool claimSelectedOptions = true)
     {
-        // SpawnEnemyWave();
+        SpawnEnemyWave();
         if (claimSelectedOptions)
             ClaimSelectedOptions();
         SetNextSwapOptions();
@@ -239,6 +247,7 @@ public class LevelControllerBehavior : MonoBehaviour
     private void SpawnEnemyWave()
     {
         int enemiesToSpawn = Mathf.FloorToInt(ENEMY_COUNT_INITIAL_SPAWN + swapCount * DIFFICULTY_FACTOR * Random.Range(0.9f, 1.3f));
+        enemyCount += enemiesToSpawn;
         for (int i = 0; i < enemiesToSpawn; i++)
         {
             GameObject newEnemy = GameObject.Instantiate(MELEE_ENEMY_PREFAB) as GameObject;

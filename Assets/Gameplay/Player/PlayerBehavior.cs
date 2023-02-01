@@ -29,6 +29,7 @@ public class PlayerBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        _hp = Mathf.Min(maxHp, _hp);
         // if the player sprite isn't looking towards the mouse,
         facingLeft = Input.mousePosition.x < Camera.main.pixelWidth / 2;
         if (facingLeft && this.transform.localScale.x > 0 || !facingLeft && this.transform.localScale.x < 0)
