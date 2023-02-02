@@ -47,7 +47,7 @@ public class FlagHandler : MonoBehaviour
         {
             DisplayFlagText(Flags.Two);
         }
-        if (!flagsAcquired.Contains(Flags.Three) && player.hp > 9999)
+        if (!flagsAcquired.Contains(Flags.Three) && player.hp >= 9999 && player.maxHP >= 9999)
         {
             DisplayFlagText(Flags.Three);
         }
